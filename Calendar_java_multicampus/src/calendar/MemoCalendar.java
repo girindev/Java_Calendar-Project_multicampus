@@ -9,6 +9,9 @@ import java.util.GregorianCalendar;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+import chatting.ChattingPanel;
+import member.UserListPanel;
+
 class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
 	final static int CAL_HEIGHT = 6;
@@ -84,8 +87,8 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의 
 		ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons();
 		 
 	JPanel group = new JPanel();
-	JPanel groupLogin = new JPanel();
-	JPanel groupChat = new JPanel();
+	UserListPanel groupLogin = new UserListPanel();
+	ChattingPanel groupChat = new ChattingPanel();
 
 	// 그룹 참여 레이아웃 테스트
 	JLabel grouptest1 = new JLabel("그룹참여");
@@ -210,8 +213,8 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의 
 				}
 			}
 			 group.setLayout(new BoxLayout(group, BoxLayout.Y_AXIS));
-			 groupLogin.add(grouptest1);
-			 groupChat.add(grouptest2);
+//			 groupLogin.add(grouptest1);
+//			 groupChat.add(grouptest2);
 			 group.add(groupLogin);
 			 group.add(groupChat);
 			
