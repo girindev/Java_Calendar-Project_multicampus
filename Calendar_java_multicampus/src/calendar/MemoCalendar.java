@@ -13,7 +13,7 @@ class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
 	final static int CAL_HEIGHT = 6;
 	int calDates[][] = new int[CAL_HEIGHT][CAL_WIDTH];
-	int calYear;
+	int calYear; //123123
 	int calMonth;
 	int calDayOfMon;
 	final int calLastDateOfMonth[]={31,28,31,30,31,30,31,31,30,31,30,31};
@@ -198,6 +198,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의 
 				for(int j=0 ; j<CAL_WIDTH ; j++){
 					datePanel[i][j] = new JPanel();
 					dateButs[i][j]=new JButton();
+					
 					dateButs[i][j].setBorderPainted(false);
 					dateButs[i][j].setContentAreaFilled(false);
 					dateButs[i][j].setBackground(Color.WHITE);					
