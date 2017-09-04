@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.*;
-
+////
 class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
 	final static int CAL_HEIGHT = 6;
