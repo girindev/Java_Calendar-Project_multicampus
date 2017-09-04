@@ -101,13 +101,6 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의 
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	final String title = "달력메인";
 
-	public static void main(String[] args){
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
-				new MemoCalendar();
-			}
-		});
-	}
 	public MemoCalendar(){ //구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
 		
 		mainFrame = new JFrame(title);
