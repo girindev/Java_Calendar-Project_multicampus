@@ -160,7 +160,7 @@ public class IdFind extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				IdFind.this.setVisible(false);
-				
+				new Login();
 			}
 		});
 		
