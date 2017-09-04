@@ -160,7 +160,7 @@ public class Pwfind extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Pwfind.this.setVisible(false);
-				
+				new Login();
 			}
 		});
 				
