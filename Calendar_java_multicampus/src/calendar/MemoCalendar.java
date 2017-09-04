@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import chatting.ChattingPanel;
-import member.UserListPanel;
+import user.UserListPanel;
 
 class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
