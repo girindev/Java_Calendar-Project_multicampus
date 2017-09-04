@@ -1,7 +1,7 @@
 package user;
 
 public class UserVO {
-	
+	private int UserNo;
 	private String str;
 	private boolean isSelected;
 	private boolean isConnect;
@@ -11,6 +11,13 @@ public class UserVO {
 		isSelected = false;
 		isConnect = false;
 		
+	}
+	
+	public void setUserNo(int num) {
+		this.UserNo = num;
+	}
+	public int getUserNo() {
+		return UserNo;
 	}
 	public void setSelected(boolean b) {
 		isSelected = b;
