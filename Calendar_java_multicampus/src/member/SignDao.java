@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class SignDao {
 	private static final String DB_DRIVER=
-			"com.mqspl.jdbc.Driver";
+			"com.mysql.jdbc.Driver";
 	private static final String DB_URL=
 			"jdbc:mysql://127.0.0.1:3306/java";
 	private static final String DB_ID="root";
@@ -32,7 +32,7 @@ public class SignDao {
 		
 		try {
 			con=DriverManager.getConnection(DB_URL,DB_ID,DB_PW);
-			String sql= "INSERT INTO STUDENTS(ID, PW, NAME, YEAR, MONTH, DAY, PHONE)"+
+			String sql= "INSERT INTO SIGN(ID, PW, NAME, YEAR, MONTH, DAY, PHONE)"+
 					"VALUES(?,?,?,?,?,?,?)";
 			
 			pstmt=con.prepareStatement(sql);
