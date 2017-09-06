@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import org.w3c.dom.events.MouseEvent;
+
 import calendar.*;
 import calendar.MemoCalendar.dateClickListener;
 
@@ -22,6 +28,12 @@ public class AddSchedule extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JButton addScheduleButton;
+	
+	private IRefreshListener iRefreshListener;
+	public void setRefreshListener(IRefreshListener iRefreshListener) {
+		this.iRefreshListener = iRefreshListener;
+	}
 		
 	public AddSchedule(int year, int month, int day) {
 				
@@ -74,6 +86,7 @@ public class AddSchedule extends JFrame {
 		textField_1.setColumns(30);
 		textField_1.setText("내용 및 장소를 입력하세요");
 		
+		
 		JPanel panel_4 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_4.getLayout();
 		flowLayout_3.setHgap(15);
@@ -89,13 +102,37 @@ public class AddSchedule extends JFrame {
 		flowLayout_2.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(panel_6);
 		
-		JButton button = new JButton("일정 만들기");
-		panel_6.add(button);
+		addScheduleButton = new JButton("일정 만들기");
+		addScheduleButton.addActionListener(new addScheduleListener());
+		panel_6.add(addScheduleButton);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		
 	}
+	class addScheduleListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (addScheduleButton == e.getSource()) {
+				/*
+				 * 일정만들면 DB 처리 
+				 * 
+				 * */
+				dispose();
+				
+				/*
+				 * memocalendar에 addschedule 종료 됐다고 알려주기
+				 * 
+				 * */
+				if (iRefreshListener != null) {
+					boolean flag = true;
+					iRefreshListener.refresh(flag);
+					iRefreshListener.textReturn(textField_1.getText());
+				}
+				
+			}
+		}
+	}
 }
 
