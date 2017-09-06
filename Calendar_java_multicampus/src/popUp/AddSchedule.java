@@ -29,6 +29,8 @@ public class AddSchedule extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JButton addScheduleButton;
+	private JTextField textField_2;
+	private JTextField textField_3;
 	
 	private IRefreshListener iRefreshListener;
 	public void setRefreshListener(IRefreshListener iRefreshListener) {
@@ -38,6 +40,7 @@ public class AddSchedule extends JFrame {
 	public AddSchedule(int year, int month, int day) {
 				
 		setBounds(100, 100, 450, 300);
+		setTitle("나의 일정 추가하기");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,13 +57,12 @@ public class AddSchedule extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 17, 10));
 		
-		textField = new JTextField();
-		panel_1.add(textField);
-		textField.setText(year+"년"+month+"월"+day+"일");
-		textField.setHorizontalAlignment(SwingConstants.LEFT);
-		textField.setColumns(30);
+		JLabel lblNewLabel_2 = new JLabel(year+"년 "+month+"월 "+day+"일 ");
+		lblNewLabel_2.setForeground(Color.BLUE);
+		lblNewLabel_2.setFont(new Font("굴림", Font.BOLD, 13));
+		panel_1.add(lblNewLabel_2);
 		
 		JPanel panel_2 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_2.getLayout();
@@ -93,6 +95,26 @@ public class AddSchedule extends JFrame {
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_4);
 		
+		JLabel label = new JLabel("시간설정");
+		label.setFont(new Font("굴림체", Font.BOLD, 14));
+		panel_4.add(label);
+		
+		textField_2 = new JTextField();
+		textField_2.setText("");
+		textField_2.setHorizontalAlignment(SwingConstants.LEFT);
+		textField_2.setColumns(4);
+		panel_4.add(textField_2);
+		
+		JLabel label_1 = new JLabel("~");
+		label_1.setFont(new Font("굴림체", Font.BOLD, 14));
+		panel_4.add(label_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setText("");
+		textField_3.setHorizontalAlignment(SwingConstants.LEFT);
+		textField_3.setColumns(4);
+		panel_4.add(textField_3);
+		
 		JPanel panel_5 = new JPanel();
 		contentPane.add(panel_5);
 		
@@ -101,7 +123,7 @@ public class AddSchedule extends JFrame {
 		flowLayout_2.setHgap(15);
 		flowLayout_2.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(panel_6);
-		
+
 		addScheduleButton = new JButton("일정 만들기");
 		addScheduleButton.addActionListener(new addScheduleListener());
 		panel_6.add(addScheduleButton);
@@ -111,7 +133,7 @@ public class AddSchedule extends JFrame {
 		
 	}
 	class addScheduleListener implements ActionListener {
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (addScheduleButton == e.getSource()) {
@@ -130,7 +152,6 @@ public class AddSchedule extends JFrame {
 					iRefreshListener.refresh(flag);
 					iRefreshListener.textReturn(textField_1.getText());
 				}
-				
 			}
 		}
 	}

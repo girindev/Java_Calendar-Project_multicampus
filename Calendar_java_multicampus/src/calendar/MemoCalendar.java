@@ -93,7 +93,7 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	}
 }
 
-public class MemoCalendar extends CalendarDataManager implements IRefreshListener{ // CalendarDataManager의 GUI
+public class MemoCalendar extends CalendarDataManager implements IRefreshListener { // CalendarDataManager의 GUI
 	// 창 구성요소와 배치도
 	JFrame mainFrame;
 	ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -230,7 +230,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 					// 클릭한 패널 날짜 받아오기 위한 마우스 리스너생성
 					datePanel[i][j].addMouseListener(new dateClickListener(i, j));
 				}
-				
+
 				datePanel[i][j].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 				calPanel.add(datePanel[i][j]);
 
@@ -256,7 +256,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 		frameSubPanelWest.add(calOpPanel, BorderLayout.NORTH);
 		frameSubPanelWest.add(calPanel, BorderLayout.CENTER);
 
-		System.out.println("test:"+frameSubPanelWest);
+		System.out.println("test:" + frameSubPanelWest);
 		Dimension frameSubPanelWestSize = frameSubPanelWest.getPreferredSize();
 		// 달력 패널 크기
 		frameSubPanelWestSize.width = 800;
@@ -276,10 +276,15 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	// 날짜 받아오는 클래스
 	public class dateClickListener implements MouseListener {
 		int i, j;
+		String content;
 
 		public dateClickListener(int i, int j) {
 			this.i = i;
 			this.j = j;
+		}
+		public dateClickListener(int i, int j, String content) {
+			this(i, j);
+			this.content = content;
 		}
 
 		@Override
@@ -288,8 +293,15 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			AddSchedule n = new AddSchedule(calYear+1, calMonth, calDates[i][j]);
-			n.setRefreshListener(MemoCalendar.this);
+			if (e.getSource() == datePanel[i][j]) {
+				AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j]);
+				n.setRefreshListener(MemoCalendar.this);
+			} else {
+				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
+				
+				
+				
+			}
 		}
 
 		@Override
@@ -340,8 +352,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
 				if (calDates[i][j] == 0) {
 					dateButs[i][j].setVisible(false);
-				}
-				else
+				} else
 					dateButs[i][j].setVisible(true);
 			}
 		}
@@ -377,22 +388,27 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			}
 		}
 	}
-	//스케줄 add하면 db select 호출
+
+	// 스케줄 add하면 db select 호출
 	@Override
 	public void refresh(boolean flag) {
-		if(flag) {
-			
+		if (flag) {
+
 		}
 	}
-	//DB 연동 후 삭제
+
+	// DB 연동 후 삭제
 	@Override
 	public void textReturn(String text) {
 		System.out.println();
 		JLabel label = new JLabel(text);
+		label.setSize(50,10);
 		label.setOpaque(true);
-		label.setPreferredSize(new Dimension(datePanel[3][3].getWidth(), 10));
+		label.addMouseListener(new dateClickListener(3, 3, label.getText()));
 		label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
+		
 		datePanel[3][3].add(label);
+
 		mainFrame.repaint();
 		mainFrame.invalidate();
 		mainFrame.validate();
