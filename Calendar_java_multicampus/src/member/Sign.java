@@ -1,35 +1,20 @@
 package member;
 
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JSlider;
-import javax.swing.JScrollBar;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JSeparator;
-import javax.swing.JList;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-
-import java.awt.Choice;
-import java.awt.TextField;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class Sign extends JFrame {
 
@@ -46,23 +31,26 @@ public class Sign extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Login frame = new Login();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// Login frame = new Login();
+	// frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the frame.
 	 */
 	public Sign() {
+		SignVo sVo = new SignVo();
+		SignDao sDao = new SignDao();
+
 		setTitle("\uD68C\uC6D0\uAC00\uC785");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +142,7 @@ public class Sign extends JFrame {
 
 		JLabel nameLabel = new JLabel("이름:                 ");
 		panel_4.add(nameLabel);
-		
+
 		nameTextField = new JTextField();
 		panel_4.add(nameTextField);
 		nameTextField.setColumns(10);
@@ -213,16 +201,33 @@ public class Sign extends JFrame {
 
 		JButton signButton = new JButton("가입");
 		panel_7.add(signButton);
+		signButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				sVo.setId(idTextField.getText().toString());
+				sVo.setPw(passwordField.getText().toString());
+				sVo.setName(nameTextField.getText().toString());
+				sVo.setYear(yearTextField.getText().toString());
+				sVo.setMonth(monthTextField.getText().toString());
+				sVo.setDay(dayTextField.getText().toString());
+				sVo.setPhon(phonTextField.getText().toString());
+
+				System.out.println("회원가입" + sDao.insertSignDao(sVo));
+
+				Sign.this.setVisible(false);
+			}
+		});
 
 		JButton cansleButton = new JButton("취소");
 		panel_7.add(cansleButton);
 		cansleButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Sign.this.setVisible(false);
-				
-				
+
 			}
 		});
 		setVisible(true);
