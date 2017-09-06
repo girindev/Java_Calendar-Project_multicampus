@@ -3,6 +3,8 @@ package calendar;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
@@ -53,7 +55,7 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 				calDates[i][j] = 0;
 			}
 		}
-		
+
 		// 달력 배열에 값 채워넣기
 		for (int i = 0, num = 1, k = 0; i < CAL_HEIGHT; i++) {
 			if (i == 0)
@@ -91,7 +93,7 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	}
 }
 
-public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의 GUI
+public class MemoCalendar extends CalendarDataManager implements IRefreshListener{ // CalendarDataManager의 GUI
 	// 창 구성요소와 배치도
 	JFrame mainFrame;
 	ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -117,7 +119,7 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 	JPanel calPanel;
 	JButton weekDaysName[];
 	JPanel datePanel[][] = new JPanel[6][7];
-	JButton dateButs[][] = new JButton[6][7];
+	JLabel dateButs[][] = new JLabel[6][7];
 	listenForDateButs lForDateButs = new listenForDateButs();
 
 	// 상수, 메세지
@@ -218,21 +220,20 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 		for (int i = 0; i < CAL_HEIGHT; i++) {
 			for (int j = 0; j < CAL_WIDTH; j++) {
 				datePanel[i][j] = new JPanel();
+				datePanel[i][j].setLayout(new BoxLayout(datePanel[i][j], BoxLayout.Y_AXIS));
 
-		// 클릭한 패널 날짜 받아오기 위한 마우스 리스너생성
-				datePanel[i][j].addMouseListener(new dateClickListener(i, j));
-				
-				dateButs[i][j] = new JButton();
-				dateButs[i][j].setBorderPainted(false);
-				dateButs[i][j].setContentAreaFilled(false);
-				dateButs[i][j].setBackground(Color.WHITE);
+				dateButs[i][j] = new JLabel();
 				dateButs[i][j].setOpaque(true);
-				dateButs[i][j].addActionListener(lForDateButs);
 				datePanel[i][j].add(dateButs[i][j]);
 
+				if (calDates[i][j] != 0) {
+					// 클릭한 패널 날짜 받아오기 위한 마우스 리스너생성
+					datePanel[i][j].addMouseListener(new dateClickListener(i, j));
+				}
+				
 				datePanel[i][j].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 				calPanel.add(datePanel[i][j]);
-				
+
 			}
 		}
 
@@ -255,6 +256,7 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 		frameSubPanelWest.add(calOpPanel, BorderLayout.NORTH);
 		frameSubPanelWest.add(calPanel, BorderLayout.CENTER);
 
+		System.out.println("test:"+frameSubPanelWest);
 		Dimension frameSubPanelWestSize = frameSubPanelWest.getPreferredSize();
 		// 달력 패널 크기
 		frameSubPanelWestSize.width = 800;
@@ -266,26 +268,28 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 		// 그룹 자리욤
 		mainFrame.add(group, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
-		
+
 		focusToday(); // 현재 날짜에 focus를 줌 (mainFrame.setVisible(true) 이후에 배치해야함)
-		
-	}	
-	//날짜 받아오는 클래스
+
+	}
+
+	// 날짜 받아오는 클래스
 	public class dateClickListener implements MouseListener {
 		int i, j;
+
 		public dateClickListener(int i, int j) {
 			this.i = i;
 			this.j = j;
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			System.out.println(calYear+"년 " +calMonth+"월 "+ calDates[i][j]+"일");
-			AddSchedule n = new AddSchedule(calYear,calMonth,calDates[i][j]);
+			AddSchedule n = new AddSchedule(calYear+1, calMonth, calDates[i][j]);
+			n.setRefreshListener(MemoCalendar.this);
 		}
 
 		@Override
@@ -299,9 +303,9 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 		@Override
 		public void mouseExited(MouseEvent e) {
 		}
-		
+
 	}
-	
+
 	private void focusToday() {
 		if (today.get(Calendar.DAY_OF_WEEK) == 1)
 			dateButs[today.get(Calendar.WEEK_OF_MONTH)][today.get(Calendar.DAY_OF_WEEK) - 1].requestFocusInWindow();
@@ -334,13 +338,15 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 					dateButs[i][j].setToolTipText("Today");
 				}
 
-				if (calDates[i][j] == 0)
+				if (calDates[i][j] == 0) {
 					dateButs[i][j].setVisible(false);
+				}
 				else
 					dateButs[i][j].setVisible(true);
 			}
 		}
 	}
+
 	private class ListenForCalOpButtons implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == todayBut) {
@@ -361,14 +367,34 @@ public class MemoCalendar extends CalendarDataManager { // CalendarDataManager의
 			showCal();
 		}
 	}
-	
-//이 부분 어디다가 쓰는 건지 아시는분????? (승호)
+
+	// 이 부분 어디다가 쓰는 건지 아시는분????? (승호)
 	private class listenForDateButs implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == dateButs) {
-				 lForDateButs = new listenForDateButs();
+				lForDateButs = new listenForDateButs();
 
 			}
 		}
+	}
+	//스케줄 add하면 db select 호출
+	@Override
+	public void refresh(boolean flag) {
+		if(flag) {
+			
+		}
+	}
+	//DB 연동 후 삭제
+	@Override
+	public void textReturn(String text) {
+		System.out.println();
+		JLabel label = new JLabel(text);
+		label.setOpaque(true);
+		label.setPreferredSize(new Dimension(datePanel[3][3].getWidth(), 10));
+		label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
+		datePanel[3][3].add(label);
+		mainFrame.repaint();
+		mainFrame.invalidate();
+		mainFrame.validate();
 	}
 }
