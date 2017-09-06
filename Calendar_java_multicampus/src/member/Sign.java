@@ -15,6 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.synth.SynthScrollBarUI;
 
 public class Sign extends JFrame {
 
@@ -52,8 +53,8 @@ public class Sign extends JFrame {
 		SignDao sDao = new SignDao();
 
 		setTitle("\uD68C\uC6D0\uAC00\uC785");
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -115,14 +116,10 @@ public class Sign extends JFrame {
 		passwordField_1.setColumns(10);
 		passwordField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(passwordField_1);
+		JLabel falseLabel =new JLabel();
+		panel_2.add(falseLabel);
 
-		// 2번과 3번이 같은지 틀린지 확인
-		if (passwordField == passwordField_1) {
-			System.out.println(passwordField.equals(passwordField_1));
-
-		} else {
-			System.out.println("틀립니다 다시입력해주세요");
-		}
+		
 
 		// 아무것도 아님 개인정보 창임
 		JPanel panel_3 = new JPanel();
@@ -193,43 +190,73 @@ public class Sign extends JFrame {
 		phonTextField = new JTextField();
 		panel_6.add(phonTextField);
 		phonTextField.setColumns(10);
+				
+				JPanel panel_8 = new JPanel();
+				panel_8.setBackground(Color.WHITE);
+				contentPane.add(panel_8);
+				
+				JLabel falseLabel2 = new JLabel("");
+				falseLabel2.setForeground(Color.RED);
+				panel_8.add(falseLabel2);
+		
+				// 가입,취소 부분
+				JPanel panel_7 = new JPanel();
+				panel_7.setBackground(Color.WHITE);
+				contentPane.add(panel_7);
+				
+						JButton signButton = new JButton("가입");
+						panel_7.add(signButton);
+						
+						
+						signButton.addActionListener(new ActionListener() {
+						
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								if(new String(passwordField.getPassword()).equals(new String(passwordField_1.getPassword()))) {
+									if(idTextField.getText().length()==0) {
+										falseLabel2.setText("아이디가 입력이 안되었습니다.");
+									}else if(nameTextField.getText().toString()==null) {
+										falseLabel2.setText("이름이  입력이 안되었습니다.");
+									}else if(yearTextField.getText().toString()==null){
+										falseLabel2.setText("년도가  입력이 안되었습니다.");
+									}else if(monthTextField.getText().toString()==null){
+										falseLabel2.setText("월이  입력이 안되었습니다.");
+									}else if(dayTextField.getText().toString()==null) {
+										falseLabel2.setText("일이  입력이 안되었습니다.");
+									}else if(phonTextField.getText().toString()==null) {
+										falseLabel2.setText("핸드폰이  입력이 안되었습니다.");
+									}else {
+										sVo.setId(idTextField.getText().toString());
+										sVo.setPw(new String(passwordField.getPassword()));
+										sVo.setName(nameTextField.getText().toString());
+										sVo.setYear(yearTextField.getText().toString());
+										sVo.setMonth(monthTextField.getText().toString());
+										sVo.setDay(dayTextField.getText().toString());
+										sVo.setPhon(phonTextField.getText().toString());
+										
+										System.out.println("회원가입" + sDao.insertSignDao(sVo));
+										Sign.this.setVisible(false);
+									}
+								}else {
+									falseLabel.setText("틀렸습니다 다시 입력하세요");
+									falseLabel.setForeground(Color.RED);
+									
+								}
 
-		// 가입,취소 부분
-		JPanel panel_7 = new JPanel();
-		panel_7.setBackground(Color.WHITE);
-		contentPane.add(panel_7);
+								
+							}
+						});
+						
+								JButton cansleButton = new JButton("취소");
+								panel_7.add(cansleButton);
+								cansleButton.addActionListener(new ActionListener() {
 
-		JButton signButton = new JButton("가입");
-		panel_7.add(signButton);
-		signButton.addActionListener(new ActionListener() {
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										Sign.this.setVisible(false);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				sVo.setId(idTextField.getText().toString());
-				sVo.setPw(passwordField.getText().toString());
-				sVo.setName(nameTextField.getText().toString());
-				sVo.setYear(yearTextField.getText().toString());
-				sVo.setMonth(monthTextField.getText().toString());
-				sVo.setDay(dayTextField.getText().toString());
-				sVo.setPhon(phonTextField.getText().toString());
-
-				System.out.println("회원가입" + sDao.insertSignDao(sVo));
-
-				Sign.this.setVisible(false);
-			}
-		});
-
-		JButton cansleButton = new JButton("취소");
-		panel_7.add(cansleButton);
-		cansleButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Sign.this.setVisible(false);
-
-			}
-		});
+									}
+								});
 		setVisible(true);
 	}
 
