@@ -15,7 +15,6 @@ import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -57,7 +56,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 		add(panelArea, BorderLayout.CENTER);
 		add(panelInput, BorderLayout.SOUTH);
 
-//		settingNetwork();
+		settingNetwork();
 	}
 
 	private void settingNetwork() {
@@ -66,35 +65,19 @@ public class ChattingPanel extends JPanel implements ActionListener {
 
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			// 서버와 연결한 후에 닉네임 입력해서 전송하기
-			String nickname = JOptionPane.showInputDialog(this, "대화명 입력하세요.", JOptionPane.INFORMATION_MESSAGE);
 
-			bw.write(nickname + "\n");
-			bw.flush();
+			if (bw != null) {
+				bw.write("나:" + "\n");
+				bw.flush();
 
-			// 닉네임 전송 후에는 서버가 보내는 메세지 받는 쓰레드
-			new ListenThread().start();
+				// 닉네임 전송 후에는 서버가 보내는 메세지 받는 쓰레드
+				new ListenThread().start();
+			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if(bw != null) {
-				try {
-					bw.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if(br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-
 	}
 
 	@Override
