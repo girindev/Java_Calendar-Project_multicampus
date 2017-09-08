@@ -141,6 +141,8 @@ public class AddSchedule extends JFrame {
 				 * 일정만들면 DB 처리 
 				 * 
 				 * */
+				
+				///////인서트 들어갈자리 /////////
 				dispose();
 				
 				/*

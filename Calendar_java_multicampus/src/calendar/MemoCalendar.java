@@ -282,6 +282,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			this.i = i;
 			this.j = j;
 		}
+
 		public dateClickListener(int i, int j, String content) {
 			this(i, j);
 			this.content = content;
@@ -298,9 +299,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 				n.setRefreshListener(MemoCalendar.this);
 			} else {
 				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
-				
-				
-				
+
 			}
 		}
 
@@ -402,11 +401,11 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	public void textReturn(String text) {
 		System.out.println();
 		JLabel label = new JLabel(text);
-		label.setSize(50,10);
+		label.setSize(50, 10);
 		label.setOpaque(true);
 		label.addMouseListener(new dateClickListener(3, 3, label.getText()));
 		label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
-		
+
 		datePanel[3][3].add(label);
 
 		mainFrame.repaint();
