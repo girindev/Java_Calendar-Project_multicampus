@@ -24,6 +24,17 @@ public class SignVo {
 		this.pw=pw;
 		this.year=year;
 	}
+	
+	public SignVo(String id, String name, 
+			String year, String month, String day, String phon) {
+		this.day=day;
+		this.id=id;
+		this.month=month;
+		this.name=name;
+		this.phon=phon;
+		this.year=year;
+	}
+	
 	public String getNumbering() {
 		return numbering;
 	}
@@ -71,6 +82,11 @@ public class SignVo {
 	}
 	public void setPhon(String phon) {
 		this.phon = phon;
+	}
+	@Override
+	public String toString() {
+		return "SignVo [numbering=" + numbering + ", id=" + id + ", pw=" + pw + ", name=" + name + ", year=" + year
+				+ ", month=" + month + ", day=" + day + ", phon=" + phon + "]";
 	}
 	
 	
