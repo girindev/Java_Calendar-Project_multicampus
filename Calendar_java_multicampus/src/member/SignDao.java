@@ -24,8 +24,6 @@ public class SignDao {
 			closePstmt();
 			closeRs();
 		}
-		
-		
 	}
 	
 	public SignVo selectById(String id) {
