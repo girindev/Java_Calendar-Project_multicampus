@@ -27,6 +27,7 @@ public class IdFind extends JFrame {
 	private JTextField dayTextField;
 	private JTextField phonTextField;
 
+	private SignDao dao = new SignDao();
 	/**
 	 * Launch the application.
 	 */
@@ -147,10 +148,23 @@ public class IdFind extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(nameTextField.getText().toString().equals(sVo.getName())&&yearTextField.getText().toString().equals(sVo.getYear())
-							&&monthTextField.getText().toString().equals(sVo.getMonth())&&dayTextField.getText().toString().equals(sVo.getDay())
-							&&phonTextField.getText().toString().equals(sVo.getPhon()));
-					idFindLabel.setText(sVo.getId());
+					
+					
+					String name = nameTextField.getText();
+					String year = yearTextField.getText();
+					String month = monthTextField.getText();
+					String day = dayTextField.getText();
+					String phone = phonTextField.getText();
+					
+					
+					
+					System.out.println("test:"+sVo);
+					sVo=dao.selectFindId(name, year, month, day, phone);
+					if(sVo == null) {
+						idFindLabel.setText("ID ¾øÀ½");
+					}else {
+						idFindLabel.setText(sVo.getId());
+					}
 				}
 			});
 			
