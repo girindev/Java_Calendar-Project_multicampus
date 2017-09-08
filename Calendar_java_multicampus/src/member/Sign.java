@@ -53,7 +53,7 @@ public class Sign extends JFrame {
 		SignDao sDao = new SignDao();
 
 		setTitle("\uD68C\uC6D0\uAC00\uC785");
-		
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -61,7 +61,7 @@ public class Sign extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
-
+		JLabel falseLabel2 = new JLabel("");
 		// 1. 아이디 생성 및 중복확인
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -85,6 +85,19 @@ public class Sign extends JFrame {
 		JButton overlapButton = new JButton("\uC911\uBCF5\uD655\uC778");
 		overlapButton.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(overlapButton);
+		overlapButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				SignVo sVo = sDao.selectById(idTextField.getText());
+				if ((idTextField.getText().toString()).equals(sVo.getId())) {
+				falseLabel2.setText("중복된 아이디입니다");
+				
+				}
+
+			}
+		});
 
 		// 2. 비밀번호입력
 		JPanel panel_1 = new JPanel();
@@ -116,10 +129,8 @@ public class Sign extends JFrame {
 		passwordField_1.setColumns(10);
 		passwordField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(passwordField_1);
-		JLabel falseLabel =new JLabel();
+		JLabel falseLabel = new JLabel();
 		panel_2.add(falseLabel);
-
-		
 
 		// 아무것도 아님 개인정보 창임
 		JPanel panel_3 = new JPanel();
@@ -190,73 +201,73 @@ public class Sign extends JFrame {
 		phonTextField = new JTextField();
 		panel_6.add(phonTextField);
 		phonTextField.setColumns(10);
-				
-				JPanel panel_8 = new JPanel();
-				panel_8.setBackground(Color.WHITE);
-				contentPane.add(panel_8);
-				
-				JLabel falseLabel2 = new JLabel("");
-				falseLabel2.setForeground(Color.RED);
-				panel_8.add(falseLabel2);
+
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(Color.WHITE);
+		contentPane.add(panel_8);
+
 		
-				// 가입,취소 부분
-				JPanel panel_7 = new JPanel();
-				panel_7.setBackground(Color.WHITE);
-				contentPane.add(panel_7);
-				
-						JButton signButton = new JButton("가입");
-						panel_7.add(signButton);
-						
-						
-						signButton.addActionListener(new ActionListener() {
-						
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								if(new String(passwordField.getPassword()).equals(new String(passwordField_1.getPassword()))) {
-									if(idTextField.getText().length()==0) {
-										falseLabel2.setText("아이디가 입력이 안되었습니다.");
-									}else if(nameTextField.getText().toString()==null) {
-										falseLabel2.setText("이름이  입력이 안되었습니다.");
-									}else if(yearTextField.getText().toString()==null){
-										falseLabel2.setText("년도가  입력이 안되었습니다.");
-									}else if(monthTextField.getText().toString()==null){
-										falseLabel2.setText("월이  입력이 안되었습니다.");
-									}else if(dayTextField.getText().toString()==null) {
-										falseLabel2.setText("일이  입력이 안되었습니다.");
-									}else if(phonTextField.getText().toString()==null) {
-										falseLabel2.setText("핸드폰이  입력이 안되었습니다.");
-									}else {
-										sVo.setId(idTextField.getText().toString());
-										sVo.setPw(new String(passwordField.getPassword()));
-										sVo.setName(nameTextField.getText().toString());
-										sVo.setYear(yearTextField.getText().toString());
-										sVo.setMonth(monthTextField.getText().toString());
-										sVo.setDay(dayTextField.getText().toString());
-										sVo.setPhon(phonTextField.getText().toString());
-										
-										System.out.println("회원가입" + sDao.insertSignDao(sVo));
-										Sign.this.setVisible(false);
-									}
-								}else {
-									falseLabel.setText("틀렸습니다 다시 입력하세요");
-									falseLabel.setForeground(Color.RED);
-									
-								}
+		falseLabel2.setForeground(Color.RED);
+		panel_8.add(falseLabel2);
 
-								
-							}
-						});
-						
-								JButton cansleButton = new JButton("취소");
-								panel_7.add(cansleButton);
-								cansleButton.addActionListener(new ActionListener() {
+		// 가입,취소 부분
+		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(Color.WHITE);
+		contentPane.add(panel_7);
 
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										Sign.this.setVisible(false);
+		JButton signButton = new JButton("가입");
+		panel_7.add(signButton);
 
-									}
-								});
+		signButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (new String(passwordField.getPassword()).equals(new String(passwordField_1.getPassword()))) {
+					if (idTextField.getText().length() == 0) {
+						falseLabel2.setText("아이디가 입력이 안되었습니다.");
+					} else if (nameTextField.getText().length() == 0) {
+						falseLabel2.setText("이름이  입력이 안되었습니다.");
+					} else if (yearTextField.getText().length() == 0) {
+						falseLabel2.setText("년도가  입력이 안되었습니다.");
+					} else if (monthTextField.getText().length() == 0) {
+						falseLabel2.setText("월이  입력이 안되었습니다.");
+					} else if (dayTextField.getText().length() == 0) {
+						falseLabel2.setText("일이  입력이 안되었습니다.");
+					} else if (phonTextField.getText().length() == 0) {
+						falseLabel2.setText("핸드폰이  입력이 안되었습니다.");
+					} else {
+						sVo.setId(idTextField.getText().toString());
+						sVo.setPw(new String(passwordField.getPassword()));
+						sVo.setName(nameTextField.getText().toString());
+						sVo.setYear(yearTextField.getText().toString());
+						sVo.setMonth(monthTextField.getText().toString());
+						sVo.setDay(dayTextField.getText().toString());
+						sVo.setPhon(phonTextField.getText().toString());
+
+						System.out.println("회원가입" + sDao.insertSignDao(sVo));
+						Sign.this.setVisible(false);
+
+					}
+				} else {
+					falseLabel.setText("틀렸습니다 다시 입력하세요");
+					falseLabel.setForeground(Color.RED);
+
+				}
+
+			}
+		});
+
+		JButton cansleButton = new JButton("취소");
+		panel_7.add(cansleButton);
+		cansleButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Sign.this.setVisible(false);
+
+			}
+		});
 		setVisible(true);
 	}
 
