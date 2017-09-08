@@ -25,6 +25,8 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField idTextField;
 	private JPasswordField passwordField;
+	private SignDao dao = new SignDao();
+	private SignVo sVo = new SignVo();
 
 	/**
 	 * Launch the application.
@@ -34,7 +36,7 @@ public class Login extends JFrame {
 			public void run() {
 				try {
 					Login frame = new Login();
-//					frame.setVisible(true);
+					// frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -128,6 +130,12 @@ public class Login extends JFrame {
 			}
 		});
 		
+		// 출력부분
+		JPanel panel4=new JPanel();
+		JLabel label=new JLabel();
+		panel4.add(label);
+		add(panel4);
+		
 		// 로그인버튼 및 회원가입버튼
 		JPanel panel_3 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_3.getLayout();
@@ -138,27 +146,30 @@ public class Login extends JFrame {
 
 		JButton logButton = new JButton("로그인");// 로그인
 		logButton.setFont(new Font("굴림", Font.PLAIN, 23));
-		
-				
-//				로그인눌렀을때 달력 창뜨는부분
-				
-//				if(idTextField==디비등록아이디&&passwordField==디비등록비밀번호) {
 					logButton.addActionListener(new ActionListener() {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Login.this.setVisible(false);
-							SwingUtilities.invokeLater(new Runnable(){
-								public void run(){
-									new MemoCalendar();
-								}
-							});
+							
+							String id= idTextField.getText();
+							String pw= new String(passwordField.getPassword());
+							
+							
+							sVo=dao.selectLogin(id, pw);
+							if(sVo == null) {
+								label.setText("잘못 입력하였습니다.");
+							}else {
+								Login.this.setVisible(false);
+								SwingUtilities.invokeLater(new Runnable(){
+									public void run(){
+										new MemoCalendar();
+									}
+								});
+							}	
 						}
 					});
-//				
-//				
-//				}
-//				
+
+		
 				
 				
 			
