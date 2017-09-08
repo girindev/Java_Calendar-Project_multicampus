@@ -22,18 +22,13 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
-import connect.DBConnect;
-
 
 public class UserListPanel extends JPanel{
 	private UserVO[] userArr;
-	private ArrayList<UserVO> userListArr;
 	
 	public UserListPanel() {
-		DBConnect dbCon = new DBConnect();
-		userListArr = dbCon.getUserList();
-		userArr = userListArr.toArray(new UserVO[userListArr.size()]);
-		
+		userArr = new UserVO[1];
+		userArr[0] = new UserVO("나");		
 		setUserListPanel(userArr);
 	}
 	
@@ -59,7 +54,32 @@ public class UserListPanel extends JPanel{
 			}
 		});
 		JScrollPane sp = new JScrollPane(list);
+		
+//		final JTextArea textArea = new JTextArea(3, 10);
+//		JScrollPane textPanel = new JScrollPane(textArea);
+//		JButton printButton = new JButton("print");
+//		printButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				ListModel model = list.getModel();
+//				int n = model.getSize();
+//				for (int i = 0; i < n; i++) {
+//					UserVO item = (UserVO) model.getElementAt(i);
+//					if (item.isSelected()) {
+//						textArea.append(item.toString());
+//						textArea.append(System.getProperty("line.separator"));
+//					}
+//				}
+//			}
+//		});
+//		JButton clearButton = new JButton("clear");
+//		clearButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				textArea.setText("");
+//			}
+//		});
+		
 		setLayout(new BorderLayout());
+		
 		
 		JButton okBtn = new JButton("확인");
 		okBtn.addActionListener(new ActionListener() {
@@ -74,7 +94,7 @@ public class UserListPanel extends JPanel{
 					UserVO item = (UserVO)model.getElementAt(i);
 					if(item.isSelected()) {
 						//체크된 아이디 가져오기
-//						checkUserNo.add(item.getUserNo());
+						checkUserNo.add(item.getUserNo());
 					}
 				}
 			}
