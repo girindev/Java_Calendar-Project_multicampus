@@ -46,6 +46,7 @@ public class IdFind extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	SignVo sVo=new SignVo();
 	public IdFind() {
 		setTitle("아이디 찾기");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +130,9 @@ public class IdFind extends JFrame {
 		
 		contentPane.add(panel_3);
 		
+		JLabel idFindLabel = new JLabel();
+		panel_3.add(idFindLabel);
+		
 		
 		
 		// 5. 찾기취소 버튼
@@ -139,18 +143,18 @@ public class IdFind extends JFrame {
 		
 		JButton findButton = new JButton("찾기");
 		panel_4.add(findButton);
-//		if(nameTextField==디비 이름 && yearTextField== 년디비&& monthTextField== 월디비
-//				&& dayTextField== 일 디비&&phonTextField== 폰디비) {
-//			findButton.addActionListener(new ActionListener() {
-//				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					panel_3에 아이디출력
-//					
-//				}
-//			});
-//			
-//		}
+		findButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(nameTextField.getText().toString().equals(sVo.getName())&&yearTextField.getText().toString().equals(sVo.getYear())
+							&&monthTextField.getText().toString().equals(sVo.getMonth())&&dayTextField.getText().toString().equals(sVo.getDay())
+							&&phonTextField.getText().toString().equals(sVo.getPhon()));
+					idFindLabel.setText(sVo.getId());
+				}
+			});
+			
+		
 		
 		
 		JButton cansleButton = new JButton("취소");
