@@ -454,7 +454,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	@Override
 	public void refresh(boolean flag) {
 		if (flag) {
-			// datePanelRefresh();
+			 datePanelRefresh();
 			showCal();
 		}
 	}
