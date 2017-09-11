@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import member.Info;
+
 public class ChattingPanel extends JPanel implements ActionListener {
 	private JPanel panelArea;
 	private JPanel panelInput;
@@ -67,7 +69,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 			if (bw != null) {
-				bw.write("나:" + "\n");
+				bw.write(Info.name + "\n");
 				bw.flush();
 
 				// 닉네임 전송 후에는 서버가 보내는 메세지 받는 쓰레드
@@ -83,6 +85,9 @@ public class ChattingPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionevent) {
 		String msg = chatField.getText();
+		if(msg.trim().equals("")) {
+			return;
+		}
 		chatField.setText("");
 
 		try {

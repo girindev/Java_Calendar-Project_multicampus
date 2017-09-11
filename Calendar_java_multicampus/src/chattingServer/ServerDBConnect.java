@@ -1,4 +1,4 @@
-package connect;
+package chattingServer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import user.UserVO;
 
-public class DBConnect {
+public class ServerDBConnect {
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/project";
 	private static final String DB_ID = "root";
@@ -33,6 +33,26 @@ public class DBConnect {
 //		return con;
 //	}
 
+	public void Connection() {
+		try {
+			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setMsg(String user,String msg) {
+		try {
+			String sql = " INSERT INTO CHAT(CHAT_ID,MSG,WRITE_TIME)\r\n" + 
+					"  VALUES('"+user+"','"+msg+"',now());";
+			pstmt = con.prepareStatement(sql);
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// 회원 리스트 가져오기
 	public ArrayList<UserVO> getUserList() {
 		ArrayList<UserVO> userArr = new ArrayList<>();

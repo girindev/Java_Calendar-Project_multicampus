@@ -1,6 +1,7 @@
 package member;
 
 public class SignVo {
+	private String numbering;
 	private String id;
 	private String pw;
 	private String name;

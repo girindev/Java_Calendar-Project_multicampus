@@ -150,6 +150,7 @@ public class Login extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
+
 							String id= idTextField.getText();
 							String pw= new String(passwordField.getPassword());
 							
@@ -172,10 +173,6 @@ public class Login extends JFrame {
 //							});
 						}
 					});
-
-		
-				
-				
 			
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
