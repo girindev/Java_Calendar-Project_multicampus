@@ -25,6 +25,8 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	int calYear;
 	int calMonth;
 	int calDayOfMon;
+	int calHour;
+	int calMinute;
 	final int calLastDateOfMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	int calLastDate;
 	Calendar today = Calendar.getInstance();
@@ -39,6 +41,8 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 		calYear = today.get(Calendar.YEAR);
 		calMonth = today.get(Calendar.MONTH);
 		calDayOfMon = today.get(Calendar.DAY_OF_MONTH);
+		calHour = today.get(Calendar.HOUR_OF_DAY);
+		calMinute = today.get(Calendar.MINUTE); 
 		makeCalData(today);
 	}
 
@@ -125,9 +129,10 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	// 상수, 메세지
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	final String title = "달력메인";
-
-	public MemoCalendar() { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
-
+	private String id;
+	
+	public MemoCalendar(String id) { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
+		this.id = id;
 		mainFrame = new JFrame(title);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(1200, 800);
@@ -282,6 +287,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			this.i = i;
 			this.j = j;
 		}
+
 		public dateClickListener(int i, int j, String content) {
 			this(i, j);
 			this.content = content;
@@ -294,13 +300,11 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == datePanel[i][j]) {
-				AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j]);
+				AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j], calHour, calMinute, id);
 				n.setRefreshListener(MemoCalendar.this);
 			} else {
 				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
-				
-				
-				
+
 			}
 		}
 
@@ -402,11 +406,11 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	public void textReturn(String text) {
 		System.out.println();
 		JLabel label = new JLabel(text);
-		label.setSize(50,10);
+		label.setSize(50, 10);
 		label.setOpaque(true);
 		label.addMouseListener(new dateClickListener(3, 3, label.getText()));
 		label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
-		
+
 		datePanel[3][3].add(label);
 
 		mainFrame.repaint();
