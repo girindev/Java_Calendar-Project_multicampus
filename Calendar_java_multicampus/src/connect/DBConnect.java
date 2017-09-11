@@ -39,7 +39,7 @@ public class DBConnect {
 		UserVO user;
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "select * from MEMBER";
+			String sql = "select * from MEMBER order by connect desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -48,12 +48,15 @@ public class DBConnect {
 				user.setUserID(rs.getString(1));
 				user.setName(rs.getString(3));
 				user.setConnect(rs.getBoolean(6));
-				user.toString();
 				userArr.add(user);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			closeRs();
+			closePstmt();
+			closeConnection();
 		}
 		return userArr;
 	}
