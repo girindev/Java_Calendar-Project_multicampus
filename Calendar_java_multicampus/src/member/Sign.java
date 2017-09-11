@@ -265,7 +265,7 @@ public class Sign extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Sign.this.setVisible(false);
-
+				new Login();
 			}
 		});
 		setVisible(true);
