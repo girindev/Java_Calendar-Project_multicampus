@@ -141,6 +141,10 @@ public class AddSchedule extends JFrame {
 				 * 일정만들면 DB 처리 
 				 * 
 				 * */
+				
+				EnterScheduleDAO firstadded = new EnterScheduleDAO();
+				firstadded.insert(textField_1.getText());
+				///////인서트 들어갈자리 /////////
 				dispose();
 				
 				/*
