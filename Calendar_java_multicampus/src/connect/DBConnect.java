@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import chattingServer.ChatVO;
 import user.UserVO;
 
 public class DBConnect {
@@ -59,6 +60,32 @@ public class DBConnect {
 			closeConnection();
 		}
 		return userArr;
+	}
+	
+	public ArrayList<ChatVO> getChatList(){
+		ArrayList<ChatVO> chatVO = new ArrayList<>();
+		ChatVO chat;
+		try {
+			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			String sql = "select msg_num, msg, write_time from chat order by msg_num desc limit 30";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				chat = new ChatVO();
+				chat.setMsg(rs.getString(2));
+				chat.setTime(rs.getString(3));
+				chatVO.add(chat);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			closeRs();
+			closePstmt();
+			closeConnection();
+		}
+		return chatVO;
 	}
 	
 	public void closeConnection() {
