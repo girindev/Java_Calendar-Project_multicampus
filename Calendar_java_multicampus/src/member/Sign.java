@@ -240,10 +240,10 @@ public class Sign extends JFrame {
 						sVo.setId(idTextField.getText().toString());
 						sVo.setPw(new String(passwordField.getPassword()));
 						sVo.setName(nameTextField.getText().toString());
-						sVo.setYear(yearTextField.getText().toString());
-						sVo.setMonth(monthTextField.getText().toString());
-						sVo.setDay(dayTextField.getText().toString());
-						sVo.setPhon(phonTextField.getText().toString());
+						sVo.setBirth(yearTextField.getText().toString()
+								+yearTextField.getText().toString()
+								+dayTextField.getText().toString());
+						sVo.setPhone(phonTextField.getText().toString());
 
 						System.out.println("회원가입" + sDao.insertSignDao(sVo));
 						Sign.this.setVisible(false);

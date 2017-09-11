@@ -25,6 +25,7 @@ public class Pwfind extends JFrame {
 	private JTextField dayTextField;
 	private SignDao dao=new SignDao();
 	private SignVo sVo=new SignVo();
+	private String q="-";
 	/**
 	 * Launch the application.
 	 */
@@ -157,9 +158,10 @@ public class Pwfind extends JFrame {
 					String year = yearTextField.getText();
 					String month = monthTextField.getText();
 					String day = dayTextField.getText();
+					String birth= year+q+month+q+day+" "+"00:00:00";
 					String phone = phonTextField.getText();
 					
-					SignVo inputVo = new SignVo(id, name, year, month, day, phone);
+					SignVo inputVo = new SignVo(id, name, birth, phone);
 					
 					
 					sVo=dao.selectFindPw(inputVo);
