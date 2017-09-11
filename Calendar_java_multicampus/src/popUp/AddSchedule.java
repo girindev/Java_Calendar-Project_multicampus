@@ -119,8 +119,8 @@ public class AddSchedule extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
+		date = year + "-" + month + "-" + day + " " ;//+ textField_2.getText() + ":" + "00";
 		
-		date = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + "00";
 	}
 	class addScheduleListener implements ActionListener {
 		
@@ -131,8 +131,10 @@ public class AddSchedule extends JFrame {
 				 * 일정만들면 DB 처리 
 				 * 
 				 * */
+				
 				EnterScheduleDAO firstadded = new EnterScheduleDAO();
-				firstadded.insert(textField_1.getText(),id, date);
+				System.out.println(textField_2.getText());
+				firstadded.insert(textField_1.getText(),id, date+textField_2.getText()+ ":" + "00");
 				
 				///////인서트 들어갈자리 /////////
 				dispose();
