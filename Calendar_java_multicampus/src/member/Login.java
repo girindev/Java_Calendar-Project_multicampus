@@ -150,28 +150,30 @@ public class Login extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							Login.this.setVisible(false);
+							SwingUtilities.invokeLater(new Runnable(){
+								public void run(){
+									new MemoCalendar();
+								}
+							});
 							
-							String id= idTextField.getText();
-							String pw= new String(passwordField.getPassword());
-							
-							
-							sVo=dao.selectLogin(id, pw);
-							if(sVo == null) {
-								label.setText("잘못 입력하였습니다.");
-							}else {
-								Login.this.setVisible(false);
-								SwingUtilities.invokeLater(new Runnable(){
-									public void run(){
-										new MemoCalendar();
-									}
-								});
-							}	
+//							String id= idTextField.getText();
+//							String pw= new String(passwordField.getPassword());
+//							
+//							
+//							sVo=dao.selectLogin(id, pw);
+//							if(sVo == null) {
+//								label.setText("잘못 입력하였습니다.");
+//							}else {
+//								Login.this.setVisible(false);
+//								SwingUtilities.invokeLater(new Runnable(){
+//									public void run(){
+//										new MemoCalendar();
+//									}
+//								});
+//							}	
 						}
 					});
-
-		
-				
-				
 			
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
