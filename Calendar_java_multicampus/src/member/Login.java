@@ -54,7 +54,7 @@ public class Login extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+		contentPane.setLayout(new GridLayout(0, 1, 5, 0));
 
 		
 		// 아이디 입력
@@ -62,10 +62,10 @@ public class Login extends JFrame {
 		panel.setForeground(Color.BLACK);
 		panel.setBackground(Color.WHITE);
 		contentPane.add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 4));
 
-		JLabel lbLabel = new JLabel("ID:  ");
-		lbLabel.setFont(new Font("굴림", Font.PLAIN, 58));
+		JLabel lbLabel = new JLabel("ID:   ");
+		lbLabel.setFont(new Font("굴림", Font.PLAIN, 45));
 		lbLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lbLabel);
 
@@ -81,16 +81,17 @@ public class Login extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setVgap(4);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_1);
 
-		JLabel lblPw = new JLabel("PW:");
-		lblPw.setFont(new Font("굴림", Font.PLAIN, 58));
+		JLabel lblPw = new JLabel("PW: ");
+		lblPw.setFont(new Font("굴림", Font.PLAIN, 45));
 		panel_1.add(lblPw);
 
 		passwordField = new JPasswordField();// 처음 비밀번호입력
 		passwordField.setFont(new Font("굴림", Font.PLAIN, 23));
-		passwordField.setColumns(9);
+		passwordField.setColumns(10);
 		passwordField.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(passwordField);
 
@@ -102,7 +103,7 @@ public class Login extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		contentPane.add(panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 20));
+		panel_2.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 16));
 		
 		JButton idFindButton = new JButton("아이디 찾기");
 		idFindButton.setFont(new Font("굴림", Font.PLAIN, 10));
@@ -132,15 +133,16 @@ public class Login extends JFrame {
 		
 		// 출력부분
 		JPanel panel4=new JPanel();
+		panel4.setBackground(Color.WHITE);
 		JLabel label=new JLabel();
 		panel4.add(label);
-		add(panel4);
+		getContentPane().add(panel4);
 		
 		// 로그인버튼 및 회원가입버튼
 		JPanel panel_3 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_3.getLayout();
-		flowLayout_1.setVgap(15);
-		flowLayout_1.setHgap(10);
+		flowLayout_1.setVgap(10);
+		flowLayout_1.setHgap(8);
 		panel_3.setBackground(Color.WHITE);
 		contentPane.add(panel_3);
 

@@ -60,7 +60,7 @@ public class Pwfind extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel);
 		
-		JLabel idLabel = new JLabel("ID:              ");
+		JLabel idLabel = new JLabel("ID:                  ");
 		panel.add(idLabel);
 		
 		idTextField = new JTextField();
@@ -75,7 +75,7 @@ public class Pwfind extends JFrame {
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_1);
 		
-		JLabel nameLabel = new JLabel("이름:           ");
+		JLabel nameLabel = new JLabel("이름:             ");
 		panel_1.add(nameLabel);
 		
 		nameTextField = new JTextField();
@@ -122,7 +122,7 @@ public class Pwfind extends JFrame {
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_3);
 		
-		JLabel phonLabel = new JLabel("핸드폰:        ");
+		JLabel phonLabel = new JLabel("핸드폰:         ");
 		panel_3.add(phonLabel);
 		
 		phonTextField = new JTextField();

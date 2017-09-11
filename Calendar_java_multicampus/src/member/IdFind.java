@@ -65,7 +65,7 @@ public class IdFind extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel);
 		
-		JLabel nameLabel = new JLabel("이름:       ");
+		JLabel nameLabel = new JLabel("이름:           ");
 		nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(nameLabel);
 		
@@ -116,7 +116,7 @@ public class IdFind extends JFrame {
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_2);
 		
-		JLabel phonLabel_4 = new JLabel("핸드폰:     ");
+		JLabel phonLabel_4 = new JLabel("핸드폰:       ");
 		panel_2.add(phonLabel_4);
 		
 		phonTextField = new JTextField();
