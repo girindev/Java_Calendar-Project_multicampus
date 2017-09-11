@@ -66,7 +66,7 @@ public class SignDao {
 
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "SELECT numbering, id, pw, name, year,month,day,phone FROM SIGN where id=?";
+			String sql = "SELECT id, pw, name, birth,phone FROM member where id=?";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -76,14 +76,11 @@ public class SignDao {
 			if(rs.next()) {
 				result = new SignVo();
 				
-				result.setNumbering(rs.getString(1));
-				result.setId(rs.getString(2));
-				result.setPw(rs.getString(3));
-				result.setName(rs.getString(4));
-				result.setYear(rs.getString(5));
-				result.setMonth(rs.getString(6));
-				result.setDay(rs.getString(7));
-				result.setPhon(rs.getString(8));
+				result.setId(rs.getString(1));
+				result.setPw(rs.getString(2));
+				result.setName(rs.getString(3));
+				result.setBirth(rs.getString(4));
+				result.setPhone(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,20 +95,18 @@ public class SignDao {
 		return result;
 	}
 	
-	public SignVo selectFindId(String name, String year, String month, String day, String phone) {
+	public SignVo selectFindId(String name, String birth, String phone) {
 		SignVo result = null;
 
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "SELECT id,name,year,month,day,phone FROM SIGN where  name=? and year=? and month=? and day=? and phone=?";
+			String sql = "SELECT id,name,birth,phone FROM member where  name=? and birth=? and phone=?";
 
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, name);
-			pstmt.setString(2, year);
-			pstmt.setString(3,month);
-			pstmt.setString(4,day);
-			pstmt.setString(5,phone);
+			pstmt.setString(2, birth);
+			pstmt.setString(3,phone);
 			
 			rs = pstmt.executeQuery();
 			
@@ -119,10 +114,10 @@ public class SignDao {
 				result = new SignVo();
 				result.setId(rs.getString(1));
 				result.setName(rs.getString(2));
-				result.setYear(rs.getString(3));
-				result.setMonth(rs.getString(4));
-				result.setDay(rs.getString(5));
-				result.setPhon(rs.getString(6));
+				result.setBirth(rs.getString(3));
+				result.setPhone(rs.getString(4));
+				
+				System.out.println("select birth:"+result.getBirth());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,17 +138,15 @@ public class SignDao {
 		try {
 			System.out.println("dao vo:"+inputVo);
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "SELECT pw,id,name,year,month,day,phone FROM SIGN where  "
-					+ "id=? and name=? and year=? and month=? and day=? and phone=?";
+			String sql = "SELECT pw,id,name,birth,phone FROM member where  "
+					+ "id=? and name=? and birth=? and phone=?";
 
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, inputVo.getId());
 			pstmt.setString(2, inputVo.getName());
-			pstmt.setString(3, inputVo.getYear());
-			pstmt.setString(4, inputVo.getMonth());
-			pstmt.setString(5, inputVo.getDay());
-			pstmt.setString(6, inputVo.getPhon());
+			pstmt.setString(3, inputVo.getBirth());
+			pstmt.setString(4, inputVo.getPhone());
 			
 			rs = pstmt.executeQuery();
 			
@@ -162,10 +155,8 @@ public class SignDao {
 				result.setPw(rs.getString(1));
 				result.setId(rs.getString(2));
 				result.setName(rs.getString(3));
-				result.setYear(rs.getString(4));
-				result.setMonth(rs.getString(5));
-				result.setDay(rs.getString(6));
-				result.setPhon(rs.getString(7));
+				result.setBirth(rs.getString(4));
+				result.setPhone(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,17 +176,15 @@ public class SignDao {
 		
 		try {
 			con=DriverManager.getConnection(DB_URL,DB_ID,DB_PW);
-			String sql= "INSERT INTO SIGN(ID, PW, NAME, YEAR, MONTH, DAY, PHONE)"+
-					"VALUES(?,?,?,?,?,?,?)";
+			String sql= "INSERT INTO member(ID, PW, NAME, birth, PHONE)"+
+					"VALUES(?,?,?,?,?)";
 			
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, sign.getId());
 			pstmt.setString(2, sign.getPw());
 			pstmt.setString(3, sign.getName());
-			pstmt.setString(4, sign.getYear());
-			pstmt.setString(5, sign.getMonth());
-			pstmt.setString(6, sign.getDay());
-			pstmt.setString(7, sign.getPhon());
+			pstmt.setString(4, sign.getBirth());
+			pstmt.setString(5, sign.getPhone());
 			
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
