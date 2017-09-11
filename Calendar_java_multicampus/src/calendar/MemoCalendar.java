@@ -1,22 +1,42 @@
 package calendar;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 
 import chatting.ChattingPanel;
-import member.Login;
+import dao.ScheduleAllSelectDao;
+import popUp.AddSchedule;
+import popUp.IRefreshListener;
+import popUp.ModifySchedule;
 import user.UserListPanel;
-import popUp.*;
+import vo.ScheduleVo;
 
 class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
@@ -270,7 +290,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 		mainFrame.setVisible(true);
 
 		focusToday(); // 현재 날짜에 focus를 줌 (mainFrame.setVisible(true) 이후에 배치해야함)
-
+		
 	}
 
 	// 날짜 받아오는 클래스
@@ -297,10 +317,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 				AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j]);
 				n.setRefreshListener(MemoCalendar.this);
 			} else {
-				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
-				
-				
-				
+				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);	
 			}
 		}
 
@@ -356,10 +373,29 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 					dateButs[i][j].setVisible(true);
 			}
 		}
+		String temp = "";
+		if (calMonth < 10) 
+			temp = "0";
+		int month = calMonth +1;
+		System.out.println(month);
+		initCalendar(calYear + "-" + temp + month);
 	}
 
 	private class ListenForCalOpButtons implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			for (int i=0; i<6; i++) {
+				for (int j=0; j<7; j++) {
+					if(datePanel[i][j].getComponentCount() >= 2) {
+						for (int k=1; k < datePanel[i][j].getComponentCount(); k++) {
+							datePanel[i][j].remove(k);
+						}
+					}
+				}
+			}
+			mainFrame.repaint();
+			mainFrame.invalidate();
+			mainFrame.validate();
+			
 			if (e.getSource() == todayBut) {
 				setToday();
 				lForDateButs.actionPerformed(e);
@@ -375,6 +411,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
 			curMMYYYYLab.setText("<html><table width=100><tr><th><font size=5>" + ((calMonth + 1) < 10 ? "&nbsp;" : "")
 					+ (calMonth + 1) + " / " + calYear + "</th></tr></table></html>");
+
 			showCal();
 		}
 	}
@@ -388,7 +425,35 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			}
 		}
 	}
-
+	//스케줄 초기화
+	public void initCalendar(String date) {
+		ScheduleAllSelectDao scheduleAllSelectDao =new ScheduleAllSelectDao();
+		ArrayList<ScheduleVo> scheduleList = scheduleAllSelectDao.selectScheduleAllList(date);
+		
+		for (ScheduleVo sv : scheduleList) {
+			for (int i=0; i<6; i++) {
+				for (int j=0; j<7; j++) {
+					SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String to = transFormat.format(sv.getDate());
+					String day = to.substring(8, 10);
+					
+					if (calDates[i][j] == Integer.valueOf(day)) {
+						JLabel label = new JLabel(sv.getContent());
+						label.setSize(50,10);
+						label.setOpaque(true);
+						label.addMouseListener(new dateClickListener(3, 3, label.getText()));
+						label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
+						datePanel[i][j].add(label);
+						
+						mainFrame.repaint();
+						mainFrame.invalidate();
+						mainFrame.validate();
+					}
+				}
+			}
+		}
+	}
+	
 	// 스케줄 add하면 db select 호출
 	@Override
 	public void refresh(boolean flag) {
