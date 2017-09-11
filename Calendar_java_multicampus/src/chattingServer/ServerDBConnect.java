@@ -33,52 +33,23 @@ public class ServerDBConnect {
 //		return con;
 //	}
 
-	public void Connection() {
+	public void connection() {
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	public void setMsg(String user,String msg) {
-		try {
-			String sql = " INSERT INTO CHAT(CHAT_ID,MSG,WRITE_TIME)\r\n" + 
-					"  VALUES('"+user+"','"+msg+"',now());";
-			pstmt = con.prepareStatement(sql);
-			
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	// 회원 리스트 가져오기
-	public ArrayList<UserVO> getUserList() {
-		ArrayList<UserVO> userArr = new ArrayList<>();
-		UserVO user;
+	public void sendDBMsg(String msg) {
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "select * from MEMBER order by connect desc";
+			String sql = "INSERT INTO CHAT(MSG,WRITE_TIME)\r\n" + 
+					"  VALUES('"+msg+"',now());";
 			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				user = new UserVO();
-				user.setUserID(rs.getString(1));
-				user.setName(rs.getString(3));
-				user.setConnect(rs.getBoolean(6));
-				userArr.add(user);
-			}
-
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			closeRs();
-			closePstmt();
-			closeConnection();
 		}
-		return userArr;
 	}
 	
 	public void closeConnection() {
