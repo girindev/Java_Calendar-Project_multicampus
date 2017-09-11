@@ -26,7 +26,9 @@ public class IdFind extends JFrame {
 	private JTextField monthTextField;
 	private JTextField dayTextField;
 	private JTextField phonTextField;
-
+	private StringBuilder bulider = new StringBuilder();
+	private SignDao dao = new SignDao();
+	private String q="-";
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +66,7 @@ public class IdFind extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel);
 		
-		JLabel nameLabel = new JLabel("이름:       ");
+		JLabel nameLabel = new JLabel("이름:           ");
 		nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(nameLabel);
 		
@@ -115,7 +117,7 @@ public class IdFind extends JFrame {
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_2);
 		
-		JLabel phonLabel_4 = new JLabel("핸드폰:     ");
+		JLabel phonLabel_4 = new JLabel("핸드폰:       ");
 		panel_2.add(phonLabel_4);
 		
 		phonTextField = new JTextField();
@@ -147,10 +149,21 @@ public class IdFind extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(nameTextField.getText().toString().equals(sVo.getName())&&yearTextField.getText().toString().equals(sVo.getYear())
-							&&monthTextField.getText().toString().equals(sVo.getMonth())&&dayTextField.getText().toString().equals(sVo.getDay())
-							&&phonTextField.getText().toString().equals(sVo.getPhon()));
-					idFindLabel.setText(sVo.getId());
+					
+					
+					String name = nameTextField.getText();
+					String year = yearTextField.getText();
+					String month = monthTextField.getText();
+					String day = dayTextField.getText();
+					String birth= year+q+month+q+day+" "+"00:00:00";
+					String phone = phonTextField.getText();
+					
+					sVo=dao.selectFindId(name, birth, phone);
+					if(sVo == null) {
+						idFindLabel.setText("ID 없음");
+					}else {
+						idFindLabel.setText(sVo.getId());
+					}
 				}
 			});
 			

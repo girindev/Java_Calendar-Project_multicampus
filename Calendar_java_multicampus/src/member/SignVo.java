@@ -5,31 +5,30 @@ public class SignVo {
 	private String id;
 	private String pw;
 	private String name;
-	private String year;
-	private String month;
-	private String day;
-	private String phon;
+	private String birth;
+	private String phone;
 	
 	public SignVo() {
 		
 	}
-	public SignVo(String numbering, String id, String pw, String name, 
-			String year, String month, String day, String phon) {
-		this.day=day;
+	public SignVo(String id, String pw, String name, 
+			String birth, String phone) {
+		this.birth=birth;
 		this.id=id;
-		this.month=month;
 		this.name=name;
-		this.numbering=numbering;
-		this.phon=phon;
+		this.phone=phone;
 		this.pw=pw;
-		this.year=year;
+		
 	}
-	public String getNumbering() {
-		return numbering;
+	
+	public SignVo(String id, String name, 
+			String birth, String phone) {
+		this.birth=birth;
+		this.id=id;
+		this.name=name;
+		this.phone=phone;
 	}
-	public void setNumbering(String numbering) {
-		this.numbering = numbering;
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -48,30 +47,25 @@ public class SignVo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getYear() {
-		return year;
+
+
+	public String getBirth() {
+		return birth;
 	}
-	public void setYear(String year) {
-		this.year = year;
+	public void setBirth(String day) {
+		this.birth = birth;
 	}
-	public String getMonth() {
-		return month;
+	public String getPhone() {
+		return phone;
 	}
-	public void setMonth(String month) {
-		this.month = month;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-	public String getDay() {
-		return day;
+	@Override
+	public String toString() {
+		return "SignVo [id=" + id + ", pw=" + pw + ", name=" + name + ", birth=" + birth + ", phone=" + phone + "]";
 	}
-	public void setDay(String day) {
-		this.day = day;
-	}
-	public String getPhon() {
-		return phon;
-	}
-	public void setPhon(String phon) {
-		this.phon = phon;
-	}
+	
 	
 	
 	

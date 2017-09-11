@@ -84,6 +84,7 @@ public class MultiChattingServer {
 			} catch (IOException e) {
 				// 담당 클라이언트가 퇴장했을 때
 				removeThread(this);
+				System.out.println(nickname+"퇴장");
 				broadcast("[" + nickname + "]님이 퇴장하였습니다.");
 				// e.printStackTrace();
 			}
