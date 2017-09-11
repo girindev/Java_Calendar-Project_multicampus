@@ -12,6 +12,8 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.stream.Collector.Characteristics;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import chattingServer.ChatVO;
+import connect.DBConnect;
 import member.Info;
 
 public class ChattingPanel extends JPanel implements ActionListener {
@@ -58,10 +62,20 @@ public class ChattingPanel extends JPanel implements ActionListener {
 		add(panelArea, BorderLayout.CENTER);
 		add(panelInput, BorderLayout.SOUTH);
 
+		DBConnect dbCon = new DBConnect();
+		ArrayList<ChatVO> chat = dbCon.getChatList();
+		for (int i = chat.size()-1; i >= 0; i--) {
+			System.out.println(i+"="+chat.get(i).getMsg());
+			chatArea.append(chat.get(i).getMsg() + "\n");
+			chatArea.setCaretPosition(chatArea.getText().length());
+//			System.out.println(chat.get(i).getMsg()+" "+chat.get(i).getTime());
+		}
+		
 		settingNetwork();
 	}
 
 	private void settingNetwork() {
+		
 		try {
 			Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 5555);
 
