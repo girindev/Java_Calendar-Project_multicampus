@@ -154,7 +154,6 @@ public class ModifySchedule extends JFrame {
 				if (iRefreshListener != null) {
 					boolean flag = true;
 					iRefreshListener.refresh(flag);
-					iRefreshListener.textReturn(textField_1.getText());
 				}
 			}
 		}
