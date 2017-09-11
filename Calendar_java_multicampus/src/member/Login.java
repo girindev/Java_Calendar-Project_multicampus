@@ -97,8 +97,6 @@ public class Login extends JFrame {
 		
 		// 아이디/비밀번호 찾기
 		
-		
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		contentPane.add(panel_2);
@@ -150,27 +148,26 @@ public class Login extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Login.this.setVisible(false);
-							SwingUtilities.invokeLater(new Runnable(){
-								public void run(){
-									new MemoCalendar();
-								}
-							});
-//							String id= idTextField.getText();
-//							String pw= new String(passwordField.getPassword());
-//							
-//							
-//							sVo=dao.selectLogin(id, pw);
-//							if(sVo == null) {
-//								label.setText("잘못 입력하였습니다.");
-//							}else {
-//								Login.this.setVisible(false);
-//								SwingUtilities.invokeLater(new Runnable(){
-//									public void run(){
-//										new MemoCalendar();
-//									}
-//								});
-//							}	
+							String id= idTextField.getText();
+							String pw= new String(passwordField.getPassword());
+							
+							sVo=dao.selectLogin(id, pw);
+							if(sVo == null) {
+								label.setText("잘못 입력하였습니다.");
+							}else {
+								Login.this.setVisible(false);
+								SwingUtilities.invokeLater(new Runnable(){
+									public void run(){
+										new MemoCalendar(idTextField.getText());
+									}
+								});
+							}	
+//							Login.this.setVisible(false);
+//							SwingUtilities.invokeLater(new Runnable(){
+//								public void run(){
+//									new MemoCalendar(idTextField.getText());
+//								}
+//							});
 						}
 					});
 
