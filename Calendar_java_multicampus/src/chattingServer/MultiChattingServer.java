@@ -12,15 +12,18 @@ import java.util.List;
 
 
 public class MultiChattingServer {
+	private ServerSocket serverSocket;
+	private List<ChattingThread> threadList;
+	private ServerDBConnect dbCon;
+	
 	public static void main(String[] args) {
 		new MultiChattingServer();
 	}
-	
-	private ServerSocket serverSocket;
-	private List<ChattingThread> threadList;
 
 	// 서버 생성자
 	public MultiChattingServer() {
+		dbCon = new ServerDBConnect();
+		dbCon.connection();
 		threadList = new ArrayList<>();
 
 		try {
@@ -38,12 +41,17 @@ public class MultiChattingServer {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			dbCon.closeRs();
+			dbCon.closePstmt();
+			dbCon.closeConnection();
 		}
 	}
 
 	// 서버의 리스트에 있는 모든 쓰레드에게 메세지 발송 명령해서
 	// 모든 클라이언트에게 메세지 방송하기 메소드
 	public void broadcast(String msg) {
+		dbCon.sendDBMsg(msg);
 		for (ChattingThread t : threadList) {
 			t.speak(msg);
 		}
