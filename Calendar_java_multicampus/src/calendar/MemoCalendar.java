@@ -151,6 +151,9 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	final String title = "달력메인";
 	private String id;
+	public MemoCalendar() {
+		
+	}
 
 	public MemoCalendar(String id) { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
 		this.id = id;

@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,13 +22,14 @@ import javax.swing.border.EmptyBorder;
 
 import calendar.MemoCalendar;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField idTextField;
 	private JPasswordField passwordField;
 	private SignDao dao = new SignDao();
 	private SignVo sVo = new SignVo();
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -47,6 +50,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+
 	public Login() {
 		setTitle("로그인");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +60,6 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(0, 1, 5, 0));
 
-		
 		// 아이디 입력
 		JPanel panel = new JPanel();
 		panel.setForeground(Color.BLACK);
@@ -76,7 +79,6 @@ public class Login extends JFrame {
 		panel.add(idTextField);
 		idTextField.setColumns(10);
 
-		
 		// 비밀번호 입력
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -95,47 +97,45 @@ public class Login extends JFrame {
 		passwordField.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(passwordField);
 
-		
 		// 아이디/비밀번호 찾기
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		contentPane.add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 16));
-		
+
 		JButton idFindButton = new JButton("아이디 찾기");
 		idFindButton.setFont(new Font("굴림", Font.PLAIN, 10));
 		panel_2.add(idFindButton);
 		idFindButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Login.this.setVisible(false);
 				new IdFind();
-				
+
 			}
 		});
-		
+
 		JButton pwFindButton = new JButton("비밀번호 찾기");
 		pwFindButton.setFont(new Font("굴림", Font.PLAIN, 10));
 		panel_2.add(pwFindButton);
 		pwFindButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Login.this.setVisible(false);
 				new Pwfind();
-				
+
 			}
 		});
-		
+
 		// 출력부분
-		JPanel panel4=new JPanel();
+		JPanel panel4 = new JPanel();
 		panel4.setBackground(Color.WHITE);
-		JLabel label=new JLabel();
+		label = new JLabel();
 		panel4.add(label);
 		getContentPane().add(panel4);
-		
+
 		// 로그인버튼 및 회원가입버튼
 		JPanel panel_3 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_3.getLayout();
@@ -146,33 +146,32 @@ public class Login extends JFrame {
 
 		JButton logButton = new JButton("로그인");// 로그인
 		logButton.setFont(new Font("굴림", Font.PLAIN, 23));
-					logButton.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
 
-							String id= idTextField.getText();
-							String pw= new String(passwordField.getPassword());
-							
-							sVo=dao.selectLogin(id, pw);
-							if(sVo == null) {
-								label.setText("잘못 입력하였습니다.");
-							}else {
-								Login.this.setVisible(false);
-								SwingUtilities.invokeLater(new Runnable(){
-									public void run(){
-										new MemoCalendar(idTextField.getText());
-									}
-								});
-							}	
-//							Login.this.setVisible(false);
-//							SwingUtilities.invokeLater(new Runnable(){
-//								public void run(){
-//									new MemoCalendar(idTextField.getText());
-//								}
-//							});
+		passwordField.addActionListener(this);
+		logButton.addActionListener(this);
+
+		logButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String id = idTextField.getText();
+				String pw = new String(passwordField.getPassword());
+
+				sVo = dao.selectLogin(id, pw);
+				if (sVo == null) {
+					label.setText("잘못 입력하였습니다.");
+				} else {
+					Login.this.setVisible(false);
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new MemoCalendar(idTextField.getText());
 						}
 					});
+				}
+			}
+		});
+
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
 		signButton.setFont(new Font("굴림", Font.PLAIN, 23));
@@ -186,6 +185,26 @@ public class Login extends JFrame {
 			}
 		});
 		setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String id = idTextField.getText();
+		String pw = new String(passwordField.getPassword());
+
+		sVo = dao.selectLogin(id, pw);
+
+		if (sVo == null) {
+			label.setText("잘못 입력하였습니다.");
+		} else {
+			Login.this.setVisible(false);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					new MemoCalendar();
+				}
+			});
+		}
+
 	}
 
 }

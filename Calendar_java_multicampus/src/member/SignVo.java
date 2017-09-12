@@ -52,7 +52,7 @@ public class SignVo {
 	public String getBirth() {
 		return birth;
 	}
-	public void setBirth(String day) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 	public String getPhone() {
