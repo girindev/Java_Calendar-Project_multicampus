@@ -30,7 +30,7 @@ public class Login extends JFrame implements ActionListener {
 	private SignDao dao = new SignDao();
 	private SignVo sVo = new SignVo();
 	private JLabel label;
-
+	private Info info=new Info(); 
 	/**
 	 * Launch the application.
 	 */
@@ -197,6 +197,9 @@ public class Login extends JFrame implements ActionListener {
 		if (sVo == null) {
 			label.setText("잘못 입력하였습니다.");
 		} else {
+			System.out.println(sVo.getId()+"///"+sVo.getName());
+			info.id=sVo.getId();
+			info.name=sVo.getName();
 			Login.this.setVisible(false);
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
