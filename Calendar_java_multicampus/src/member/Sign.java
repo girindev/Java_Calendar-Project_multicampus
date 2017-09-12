@@ -28,7 +28,7 @@ public class Sign extends JFrame {
 	private JTextField monthTextField;
 	private JTextField dayTextField;
 	private JTextField phonTextField;
-
+	private String q="-";
 	/**
 	 * Launch the application.
 	 */
@@ -82,7 +82,7 @@ public class Sign extends JFrame {
 		panel.add(idTextField);
 		idTextField.setColumns(10);
 
-		JButton overlapButton = new JButton("\uC911\uBCF5\uD655\uC778");
+		JButton overlapButton = new JButton("중복확인");
 		overlapButton.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(overlapButton);
 		overlapButton.addActionListener(new ActionListener() {
@@ -91,11 +91,13 @@ public class Sign extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				SignVo sVo = sDao.selectById(idTextField.getText());
-				if ((idTextField.getText().toString()).equals(sVo.getId())) {
-				falseLabel2.setText("중복된 아이디입니다");
-				
+		
+				if (sVo!=null && (idTextField.getText().toString()).equals(sVo.getId())) {
+					falseLabel2.setText("중복된 아이디입니다");
+				}else{
+					falseLabel2.setText("사용가능한 아이디입니다");
 				}
-
+				System.out.println(idTextField.getText());
 			}
 		});
 
@@ -240,11 +242,10 @@ public class Sign extends JFrame {
 						sVo.setId(idTextField.getText().toString());
 						sVo.setPw(new String(passwordField.getPassword()));
 						sVo.setName(nameTextField.getText().toString());
-						sVo.setBirth(yearTextField.getText().toString()
-								+yearTextField.getText().toString()
-								+dayTextField.getText().toString());
+						sVo.setBirth(yearTextField.getText().toString()+q
+								+monthTextField.getText().toString()+q
+								+dayTextField.getText().toString()+" "+"00:00:00");
 						sVo.setPhone(phonTextField.getText().toString());
-
 						System.out.println("회원가입" + sDao.insertSignDao(sVo));
 						Sign.this.setVisible(false);
 
