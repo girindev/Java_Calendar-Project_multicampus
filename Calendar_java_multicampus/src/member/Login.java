@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import calendar.MemoCalendar;
 
-public class Login extends JFrame implements ActionListener{
+public class Login extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField idTextField;
@@ -30,6 +30,7 @@ public class Login extends JFrame implements ActionListener{
 	private SignDao dao = new SignDao();
 	private SignVo sVo = new SignVo();
 	private JLabel label;
+
 	/**
 	 * Launch the application.
 	 */
@@ -97,7 +98,6 @@ public class Login extends JFrame implements ActionListener{
 		panel_1.add(passwordField);
 
 		// 아이디/비밀번호 찾기
-
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		contentPane.add(panel_2);
@@ -146,9 +146,31 @@ public class Login extends JFrame implements ActionListener{
 
 		JButton logButton = new JButton("로그인");// 로그인
 		logButton.setFont(new Font("굴림", Font.PLAIN, 23));
-	
+
 		passwordField.addActionListener(this);
 		logButton.addActionListener(this);
+
+		logButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String id = idTextField.getText();
+				String pw = new String(passwordField.getPassword());
+
+				sVo = dao.selectLogin(id, pw);
+				if (sVo == null) {
+					label.setText("잘못 입력하였습니다.");
+				} else {
+					Login.this.setVisible(false);
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new MemoCalendar(idTextField.getText());
+						}
+					});
+				}
+			}
+		});
 
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
@@ -170,8 +192,8 @@ public class Login extends JFrame implements ActionListener{
 		String id = idTextField.getText();
 		String pw = new String(passwordField.getPassword());
 
-		sVo = dao.selectLogin(id, pw);			
-		
+		sVo = dao.selectLogin(id, pw);
+
 		if (sVo == null) {
 			label.setText("잘못 입력하였습니다.");
 		} else {
@@ -182,7 +204,7 @@ public class Login extends JFrame implements ActionListener{
 				}
 			});
 		}
-		
+
 	}
 
 }
