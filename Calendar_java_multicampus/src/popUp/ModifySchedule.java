@@ -30,6 +30,7 @@ public class ModifySchedule extends JFrame {
 	private JTextField textField_1;
 	private JButton modifyScheduleButton;
 	private IRefreshListener iRefreshListener;
+	private JTextField textField_4;
 	public void setRefreshListener(IRefreshListener iRefreshListener) {
 		this.iRefreshListener = iRefreshListener;
 	}
@@ -52,10 +53,15 @@ public class ModifySchedule extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
+		
+		
 		JLabel lblNewLabel = new JLabel("선택된 날짜");
 		lblNewLabel.setFont(new Font("굴림체", Font.BOLD, 14));
 		panel.add(lblNewLabel);
 		
+		modifyScheduleButton = new JButton("수정 완료");
+		panel.add(modifyScheduleButton);
+		modifyScheduleButton.addActionListener(new addScheduleListener());
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1);
@@ -119,6 +125,8 @@ public class ModifySchedule extends JFrame {
 		panel_4.add(textField_3);
 		
 		JPanel panel_5 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) panel_5.getLayout();
+		flowLayout_4.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_5);
 		
 		JPanel panel_6 = new JPanel();
@@ -127,9 +135,25 @@ public class ModifySchedule extends JFrame {
 		flowLayout_2.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(panel_6);
 		
-		modifyScheduleButton = new JButton("수정 완료");
-		modifyScheduleButton.addActionListener(new addScheduleListener());
-		panel_6.add(modifyScheduleButton);
+		textField_4 = new JTextField();
+		textField_4.setColumns(25);
+		panel_6.add(textField_4);
+		
+		JButton button = new JButton("\uB313\uAE00 \uC785\uB825");
+		panel_6.add(button);
+		
+//		JPanel panel_5 = new JPanel();
+//		contentPane.add(panel_5);
+//		
+//		JPanel panel_6 = new JPanel();
+//		FlowLayout flowLayout_2 = (FlowLayout) panel_6.getLayout();
+//		flowLayout_2.setHgap(15);
+//		flowLayout_2.setAlignment(FlowLayout.RIGHT);
+//		contentPane.add(panel_6);
+		
+//		modifyScheduleButton = new JButton("수정 완료");
+//		modifyScheduleButton.addActionListener(new addScheduleListener());
+//		panel_6.add(modifyScheduleButton);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
