@@ -173,7 +173,6 @@ public class Login extends JFrame {
 //							});
 						}
 					});
-			
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
 		signButton.setFont(new Font("굴림", Font.PLAIN, 23));
