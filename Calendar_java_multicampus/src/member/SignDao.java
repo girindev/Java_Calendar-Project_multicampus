@@ -6,7 +6,7 @@ public class SignDao {
 	private static final String DB_DRIVER=
 			"com.mysql.jdbc.Driver";
 	private static final String DB_URL=
-			"jdbc:mysql://127.0.0.1:3306/java";
+			"jdbc:mysql://127.0.0.1:3306/project";
 	private static final String DB_ID="root";
 	private static final String DB_PW="sds1501";
 	
