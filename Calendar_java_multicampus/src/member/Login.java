@@ -200,7 +200,7 @@ public class Login extends JFrame implements ActionListener {
 			Login.this.setVisible(false);
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					new MemoCalendar();
+					new MemoCalendar(idTextField.getText());
 				}
 			});
 		}
