@@ -12,6 +12,8 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.stream.Collector.Characteristics;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import chattingServer.ChatVO;
+import connect.DBConnect;
+import member.Info;
 
 public class ChattingPanel extends JPanel implements ActionListener {
 	private JPanel panelArea;
@@ -56,10 +62,20 @@ public class ChattingPanel extends JPanel implements ActionListener {
 		add(panelArea, BorderLayout.CENTER);
 		add(panelInput, BorderLayout.SOUTH);
 
+		DBConnect dbCon = new DBConnect();
+		ArrayList<ChatVO> chat = dbCon.getChatList();
+		for (int i = chat.size()-1; i >= 0; i--) {
+			System.out.println(i+"="+chat.get(i).getMsg());
+			chatArea.append(chat.get(i).getMsg() + "\n");
+			chatArea.setCaretPosition(chatArea.getText().length());
+//			System.out.println(chat.get(i).getMsg()+" "+chat.get(i).getTime());
+		}
+		
 		settingNetwork();
 	}
 
 	private void settingNetwork() {
+		
 		try {
 			Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 5555);
 
@@ -67,7 +83,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 			if (bw != null) {
-				bw.write("나:" + "\n");
+				bw.write(Info.name + "\n");
 				bw.flush();
 
 				// 닉네임 전송 후에는 서버가 보내는 메세지 받는 쓰레드
@@ -83,6 +99,9 @@ public class ChattingPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionevent) {
 		String msg = chatField.getText();
+		if(msg.trim().equals("")) {
+			return;
+		}
 		chatField.setText("");
 
 		try {

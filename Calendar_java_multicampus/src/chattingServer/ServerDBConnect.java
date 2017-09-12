@@ -1,4 +1,4 @@
-package connect;
+package chattingServer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,10 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import chattingServer.ChatVO;
 import user.UserVO;
 
-public class DBConnect {
+public class ServerDBConnect {
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/project";
 	private static final String DB_ID = "root";
@@ -34,58 +33,23 @@ public class DBConnect {
 //		return con;
 //	}
 
-	// 회원 리스트 가져오기
-	public ArrayList<UserVO> getUserList() {
-		ArrayList<UserVO> userArr = new ArrayList<>();
-		UserVO user;
+	public void connection() {
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "select * from MEMBER order by connect desc";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				user = new UserVO();
-				user.setUserID(rs.getString(1));
-				user.setName(rs.getString(3));
-				user.setConnect(rs.getBoolean(6));
-				userArr.add(user);
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			closeRs();
-			closePstmt();
-			closeConnection();
 		}
-		return userArr;
 	}
 	
-	public ArrayList<ChatVO> getChatList(){
-		ArrayList<ChatVO> chatVO = new ArrayList<>();
-		ChatVO chat;
+	public void sendDBMsg(String msg) {
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "select msg_num, msg, write_time from chat order by msg_num desc limit 30";
+			String sql = "INSERT INTO CHAT(MSG,WRITE_TIME)\r\n" + 
+					"  VALUES('"+msg+"',now());";
 			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				chat = new ChatVO();
-				chat.setMsg(rs.getString(2));
-				chat.setTime(rs.getString(3));
-				chatVO.add(chat);
-			}
-
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			closeRs();
-			closePstmt();
-			closeConnection();
 		}
-		return chatVO;
 	}
 	
 	public void closeConnection() {

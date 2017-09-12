@@ -1,13 +1,11 @@
 package popUp;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,28 +15,24 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.w3c.dom.events.MouseEvent;
-
-import calendar.*;
-import calendar.MemoCalendar.dateClickListener;
 
 public class AddSchedule extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
 	private JTextField textField_1;
 	private JButton addScheduleButton;
 	private JTextField textField_2;
-	private JTextField textField_3;
+	private String date;
 	
 	private IRefreshListener iRefreshListener;
 	public void setRefreshListener(IRefreshListener iRefreshListener) {
 		this.iRefreshListener = iRefreshListener;
 	}
-		
-	public AddSchedule(int year, int month, int day) {
-				
+	private String id;	
+	
+	public AddSchedule(int year, int month, int day, int hour, int minute, String id) {
+		this.id = id;		
 		setBounds(100, 100, 450, 300);
 		setTitle("나의 일정 추가하기");
 		contentPane = new JPanel();
@@ -99,21 +93,10 @@ public class AddSchedule extends JFrame {
 		label.setFont(new Font("굴림체", Font.BOLD, 14));
 		panel_4.add(label);
 		
-		textField_2 = new JTextField();
-		textField_2.setText("");
+		textField_2 = new JTextField(hour + ":" + minute);
 		textField_2.setHorizontalAlignment(SwingConstants.LEFT);
 		textField_2.setColumns(4);
 		panel_4.add(textField_2);
-		
-		JLabel label_1 = new JLabel("~");
-		label_1.setFont(new Font("굴림체", Font.BOLD, 14));
-		panel_4.add(label_1);
-		
-		textField_3 = new JTextField();
-		textField_3.setText("");
-		textField_3.setHorizontalAlignment(SwingConstants.LEFT);
-		textField_3.setColumns(4);
-		panel_4.add(textField_3);
 		
 		JPanel panel_5 = new JPanel();
 		contentPane.add(panel_5);
@@ -130,6 +113,7 @@ public class AddSchedule extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
+		date = year + "-" + month + "-" + day + " " ;//+ textField_2.getText() + ":" + "00";
 		
 	}
 	class addScheduleListener implements ActionListener {
@@ -143,7 +127,9 @@ public class AddSchedule extends JFrame {
 				 * */
 				
 				EnterScheduleDAO firstadded = new EnterScheduleDAO();
-				firstadded.insert(textField_1.getText());
+				System.out.println(textField_2.getText());
+				firstadded.insert(textField_1.getText(),id, date+textField_2.getText()+ ":" + "00");
+				
 				///////인서트 들어갈자리 /////////
 				dispose();
 				
@@ -154,7 +140,6 @@ public class AddSchedule extends JFrame {
 				if (iRefreshListener != null) {
 					boolean flag = true;
 					iRefreshListener.refresh(flag);
-					iRefreshListener.textReturn(textField_1.getText());
 				}
 			}
 		}

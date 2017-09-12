@@ -23,30 +23,41 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
 import connect.DBConnect;
+import member.Info;
 
-
-public class UserListPanel extends JPanel{
+public class UserListPanel extends JPanel {
 	private UserVO[] userArr;
-	private ArrayList<UserVO> userListArr;
-	
+
 	public UserListPanel() {
 		DBConnect dbCon = new DBConnect();
-		userListArr = dbCon.getUserList();
-		userArr = userListArr.toArray(new UserVO[userListArr.size()]);
-		
+		ArrayList<UserVO> userListArr = dbCon.getUserList();
+		userArr = new UserVO[userListArr.size()];
+
+		UserVO me = new UserVO();
+		me.setUserID(Info.id);
+		me.setName(Info.name);
+		me.setSelected(Info.selected);
+		me.setConnect(Info.connect);
+		userArr[0] = me;
+
+		int j = 1;
+		for (int i = 0; i < userListArr.size(); i++) {
+			if (!userListArr.get(i).getUserID().equals(Info.id)) {
+				userArr[j++] = userListArr.get(i);
+			}
+		}
+
+		// userArr = userListArr.toArray(new UserVO[userListArr.size()]);
+
 		setUserListPanel(userArr);
 	}
-	
-	public UserListPanel(UserVO[] users) {
-		setUserListPanel(users);
-	}
-	
+
 	public void setUserListPanel(UserVO[] users) {
 		this.userArr = users;
 		setBackground(Color.WHITE);
 		JList list = new JList(userArr);
-		
-		list.setCellRenderer(new CheckListRenderer());		
+
+		list.setCellRenderer(new CheckListRenderer());
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
@@ -60,7 +71,7 @@ public class UserListPanel extends JPanel{
 		});
 		JScrollPane sp = new JScrollPane(list);
 		setLayout(new BorderLayout());
-		
+
 		JButton okBtn = new JButton("확인");
 		okBtn.addActionListener(new ActionListener() {
 			private ArrayList checkUserNo;
@@ -68,58 +79,60 @@ public class UserListPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				checkUserNo = new ArrayList<>();
-				
+
 				ListModel model = list.getModel();
 				for (int i = 0; i < model.getSize(); i++) {
-					UserVO item = (UserVO)model.getElementAt(i);
-					if(item.isSelected()) {
-						//체크된 아이디 가져오기
-//						checkUserNo.add(item.getUserNo());
+					UserVO item = (UserVO) model.getElementAt(i);
+					if (item.isSelected()) {
+						// 체크된 아이디 가져오기
+						// checkUserNo.add(item.getUserNo());
 					}
 				}
 			}
 		});
 		JButton clearBtn = new JButton("초기화");
 		clearBtn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//체크 해제
+				// 체크 해제
 				ListModel model = list.getModel();
-				for (int i = 0; i < model.getSize(); i++) {
-					UserVO item = (UserVO)model.getElementAt(i);
-						item.setSelected(false);						
+				((UserVO) model.getElementAt(0)).setSelected(true);
+				for (int i = 1; i < model.getSize(); i++) {
+					UserVO item = (UserVO) model.getElementAt(i);
+					item.setSelected(false);
 				}
 				repaint();
 			}
 		});
-		
+
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(okBtn);
 		btnPanel.add(clearBtn);
-		
+
 		add(btnPanel, BorderLayout.SOUTH);
 		add(sp, BorderLayout.CENTER);
-	} 
-	
-	
-	class CheckListRenderer extends JCheckBox implements ListCellRenderer{
+	}
+
+	class CheckListRenderer extends JCheckBox implements ListCellRenderer {
 
 		public CheckListRenderer() {
 			setBackground(UIManager.getColor("List.textBackground"));
 			setForeground(UIManager.getColor("List.textForeground"));
 		}
-		
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
+
 			setEnabled(list.isEnabled());
-			setSelected(((UserVO)value).isSelected());
-			
+			setSelected(((UserVO) value).isSelected());
+
 			setFont(list.getFont());
-			String conStr="오프라인";
-			if(((UserVO)value).isConnect()) conStr = "온라인";
-			setText(value.toString()+"  "+conStr);
+			String conStr = "오프라인";
+			if (((UserVO) value).isConnect())
+				conStr = "온라인";
+			setText(value.toString() + "  " + conStr);
 			return this;
 		}
 	}

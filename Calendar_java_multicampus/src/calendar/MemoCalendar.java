@@ -1,22 +1,42 @@
 package calendar;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 
 import chatting.ChattingPanel;
-import member.Login;
+import dao.ScheduleAllSelectDao;
+import popUp.AddSchedule;
+import popUp.IRefreshListener;
+import popUp.ModifySchedule;
 import user.UserListPanel;
-import popUp.*;
+import vo.ScheduleVo;
 
 class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	static final int CAL_WIDTH = 7;
@@ -25,6 +45,8 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	int calYear;
 	int calMonth;
 	int calDayOfMon;
+	int calHour;
+	int calMinute;
 	final int calLastDateOfMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	int calLastDate;
 	Calendar today = Calendar.getInstance();
@@ -39,6 +61,8 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 		calYear = today.get(Calendar.YEAR);
 		calMonth = today.get(Calendar.MONTH);
 		calDayOfMon = today.get(Calendar.DAY_OF_MONTH);
+		calHour = today.get(Calendar.HOUR_OF_DAY);
+		calMinute = today.get(Calendar.MINUTE);
 		makeCalData(today);
 	}
 
@@ -125,9 +149,13 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 	// 상수, 메세지
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	final String title = "달력메인";
+	private String id;
+	public MemoCalendar() {
+		
+	}
 
-	public MemoCalendar() { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
-
+	public MemoCalendar(String id) { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
+		this.id = id;
 		mainFrame = new JFrame(title);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(1200, 800);
@@ -221,14 +249,17 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			for (int j = 0; j < CAL_WIDTH; j++) {
 				datePanel[i][j] = new JPanel();
 				datePanel[i][j].setLayout(new BoxLayout(datePanel[i][j], BoxLayout.Y_AXIS));
-
+				
 				dateButs[i][j] = new JLabel();
+				
 				dateButs[i][j].setOpaque(true);
 				datePanel[i][j].add(dateButs[i][j]);
 
 				if (calDates[i][j] != 0) {
 					// 클릭한 패널 날짜 받아오기 위한 마우스 리스너생성
-					datePanel[i][j].addMouseListener(new dateClickListener(i, j));
+					datePanel[i][j].addMouseListener(new DateClickListener(i, j, 
+							calYear, calMonth, calDates, calHour, calMinute,id,
+							datePanel, MemoCalendar.this));
 				}
 
 				datePanel[i][j].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
@@ -256,7 +287,6 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 		frameSubPanelWest.add(calOpPanel, BorderLayout.NORTH);
 		frameSubPanelWest.add(calPanel, BorderLayout.CENTER);
 
-		System.out.println("test:" + frameSubPanelWest);
 		Dimension frameSubPanelWestSize = frameSubPanelWest.getPreferredSize();
 		// 달력 패널 크기
 		frameSubPanelWestSize.width = 800;
@@ -270,50 +300,6 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 		mainFrame.setVisible(true);
 
 		focusToday(); // 현재 날짜에 focus를 줌 (mainFrame.setVisible(true) 이후에 배치해야함)
-
-	}
-
-	// 날짜 받아오는 클래스
-	public class dateClickListener implements MouseListener {
-		int i, j;
-		String content;
-
-		public dateClickListener(int i, int j) {
-			this.i = i;
-			this.j = j;
-		}
-
-		public dateClickListener(int i, int j, String content) {
-			this(i, j);
-			this.content = content;
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.getSource() == datePanel[i][j]) {
-				AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j]);
-				n.setRefreshListener(MemoCalendar.this);
-			} else {
-				ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
-
-			}
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
 
 	}
 
@@ -355,10 +341,17 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 					dateButs[i][j].setVisible(true);
 			}
 		}
+		String temp = "";
+		if (calMonth < 10)
+			temp = "0";
+		int month = calMonth + 1;
+		initCalendar(calYear + "-" + temp + month);
 	}
 
 	private class ListenForCalOpButtons implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			removeDatePanelContent();
+
 			if (e.getSource() == todayBut) {
 				setToday();
 				lForDateButs.actionPerformed(e);
@@ -374,6 +367,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
 			curMMYYYYLab.setText("<html><table width=100><tr><th><font size=5>" + ((calMonth + 1) < 10 ? "&nbsp;" : "")
 					+ (calMonth + 1) + " / " + calYear + "</th></tr></table></html>");
+
 			showCal();
 		}
 	}
@@ -387,27 +381,68 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			}
 		}
 	}
+	/**
+	 * @author 박성훈
+	 * DB에서 스케줄 불러와서 캘린더에 초기화
+	 * */
+	public void initCalendar(String date) {
+		ScheduleAllSelectDao scheduleAllSelectDao = new ScheduleAllSelectDao();
+		ArrayList<ScheduleVo> scheduleList = scheduleAllSelectDao.selectScheduleAllList(date);
 
-	// 스케줄 add하면 db select 호출
-	@Override
-	public void refresh(boolean flag) {
-		if (flag) {
+		for (ScheduleVo sv : scheduleList) {
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 7; j++) {
+					SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String to = transFormat.format(sv.getDate());
+					String day = to.substring(8, 10);
 
+					if (calDates[i][j] == Integer.valueOf(day)) {
+						JLabel label = new JLabel(sv.getContent());
+						label.setMinimumSize(new Dimension(111,15));
+						label.setPreferredSize(new Dimension(111,15));
+						label.setMaximumSize(new Dimension(111,15));
+						
+						label.setOpaque(true);
+						label.setForeground(Color.white);
+						label.addMouseListener(new DateClickListener(i, j, label.getText(),  
+								calYear, calMonth, calDates, calHour, calMinute, 
+								id, sv.getSchPK(),datePanel, MemoCalendar.this));
+						label.setBackground(UserColor.getColor(sv.getColor())); // 서버에서 받아오는 색상으로 변경
+						datePanel[i][j].add(label);
+
+						mainFrame.repaint();
+						mainFrame.invalidate();
+						mainFrame.validate();
+					}
+				}
+			}
 		}
 	}
 
-	// DB 연동 후 삭제
+	/**
+	 * @author 박성훈
+	 * 스케줄 add하면 db select 호출
+	 * */
 	@Override
-	public void textReturn(String text) {
-		System.out.println();
-		JLabel label = new JLabel(text);
-		label.setSize(50, 10);
-		label.setOpaque(true);
-		label.addMouseListener(new dateClickListener(3, 3, label.getText()));
-		label.setBackground(Color.orange); // 서버에서 받아오는 색상으로 변경
-
-		datePanel[3][3].add(label);
-
+	public void refresh(boolean flag) {
+		if (flag) {
+			removeDatePanelContent();
+			showCal();
+		}
+	}
+	/**
+	 * @author 박성훈
+	 * 캘린더 날짜별 패널 내용 삭제
+	 * */
+	public void removeDatePanelContent() {
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				if (datePanel[i][j].getComponentCount() >= 2) {
+					while (datePanel[i][j].getComponentCount() != 1)
+						datePanel[i][j].remove(datePanel[i][j].getComponentCount() - 1);
+				}
+			}
+		}
 		mainFrame.repaint();
 		mainFrame.invalidate();
 		mainFrame.validate();
