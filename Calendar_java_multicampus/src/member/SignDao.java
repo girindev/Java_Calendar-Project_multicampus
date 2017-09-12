@@ -33,7 +33,7 @@ public class SignDao {
 
 		try {
 			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
-			String sql = "SELECT id, pw FROM member where id=? and pw=?";
+			String sql = "SELECT id, pw, name FROM member where id=? and pw=?";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -46,6 +46,7 @@ public class SignDao {
 				
 				result.setId(rs.getString(1));
 				result.setPw(rs.getString(2));
+				result.setName(rs.getString(3));
 				
 			}
 		} catch (SQLException e) {
