@@ -35,6 +35,7 @@ import dao.ScheduleAllSelectDao;
 import popUp.AddSchedule;
 import popUp.IRefreshListener;
 import popUp.ModifySchedule;
+import popUp.OtherSchedule;
 import user.UserListPanel;
 import vo.ScheduleVo;
 
@@ -52,7 +53,7 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 	Calendar today = Calendar.getInstance();
 	Calendar cal;
 	AddSchedule popUp01;
-
+	String writer;
 	public CalendarDataManager() {
 		setToday();
 	}
