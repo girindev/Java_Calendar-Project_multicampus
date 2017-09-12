@@ -18,7 +18,7 @@ public class ScheduleAllSelectDao {
 	public ArrayList<ScheduleVo> selectScheduleAllList(String date) {
 		new ArrayList<>();
 		ArrayList<ScheduleVo> scheduleList = new ArrayList<>();
-		String sql = "Select sch_title,sch_write_id, sch_date, color "
+		String sql = "Select sch_num, sch_title,sch_write_id, sch_date, color "
 				+ "from schedule, member "
 				+ "where (sch_date like '"+date+"%') "
 						+ "AND (sch_write_id = name)";

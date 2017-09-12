@@ -246,9 +246,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 			for (int j = 0; j < CAL_WIDTH; j++) {
 				datePanel[i][j] = new JPanel();
 				datePanel[i][j].setLayout(new BoxLayout(datePanel[i][j], BoxLayout.Y_AXIS));
-				
-				dateButs[i][j] = new JLabel();
-				
+				dateButs[i][j] = new JLabel();				
 				dateButs[i][j].setOpaque(true);
 				datePanel[i][j].add(dateButs[i][j]);
 
