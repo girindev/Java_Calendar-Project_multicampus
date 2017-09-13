@@ -24,12 +24,11 @@ public class ScheduleAllSelectDao {
 						+ "AND (sch_write_id = name)";
 		rs = dao.selectQuery(sql);
 		try {
-			while (rs.next()) {
-				
+			while (rs.next()) {		
 				String sch_content = rs.getString("sch_title");
 				Date sch_date = rs.getTimestamp("sch_date");
 				String sch_write_id = rs.getString("sch_write_id");
-				String color = rs.getString("color");
+				int color = rs.getInt("color");
 				int schPK = rs.getInt("sch_num");
 				scheduleList.add(new ScheduleVo(sch_content, sch_date, sch_write_id,color, schPK));
 			}
