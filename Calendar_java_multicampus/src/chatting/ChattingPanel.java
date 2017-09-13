@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import chattingServer.ChatVO;
 import connect.DBConnect;
 import member.Info;
+import user.UserListPanel;
 
 public class ChattingPanel extends JPanel implements ActionListener {
 	private JPanel panelArea;
@@ -36,7 +37,10 @@ public class ChattingPanel extends JPanel implements ActionListener {
 	private BufferedReader br;
 	private BufferedWriter bw;
 
-	public ChattingPanel() {
+	private UserListPanel userListPanel;
+
+	public ChattingPanel(UserListPanel userListPanel) {
+		this.userListPanel = userListPanel;
 		setBackground(Color.PINK);
 
 		panelArea = new JPanel();
@@ -62,20 +66,18 @@ public class ChattingPanel extends JPanel implements ActionListener {
 		add(panelArea, BorderLayout.CENTER);
 		add(panelInput, BorderLayout.SOUTH);
 
+		//
 		DBConnect dbCon = new DBConnect();
 		ArrayList<ChatVO> chat = dbCon.getChatList();
-		for (int i = chat.size()-1; i >= 0; i--) {
-			System.out.println(i+"="+chat.get(i).getMsg());
+		for (int i = chat.size() - 1; i >= 0; i--)
 			chatArea.append(chat.get(i).getMsg() + "\n");
-			chatArea.setCaretPosition(chatArea.getText().length());
-//			System.out.println(chat.get(i).getMsg()+" "+chat.get(i).getTime());
-		}
-		
+		chatArea.setCaretPosition(chatArea.getText().length());
+
 		settingNetwork();
 	}
 
 	private void settingNetwork() {
-		
+
 		try {
 			Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 5555);
 
@@ -83,7 +85,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 			if (bw != null) {
-				bw.write(Info.name + "\n");
+				bw.write(Info.name + "/" + Info.id + "\n");
 				bw.flush();
 
 				// 닉네임 전송 후에는 서버가 보내는 메세지 받는 쓰레드
@@ -99,7 +101,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionevent) {
 		String msg = chatField.getText();
-		if(msg.trim().equals("")) {
+		if (msg.trim().equals("")) {
 			return;
 		}
 		chatField.setText("");
@@ -118,8 +120,13 @@ public class ChattingPanel extends JPanel implements ActionListener {
 			try {
 				while (true) {
 					String receiveMsg = br.readLine();
+
 					chatArea.append(receiveMsg + "\n");
 					chatArea.setCaretPosition(chatArea.getText().length());
+					
+					if (receiveMsg.endsWith("]님이 입장하셨습니다.") || receiveMsg.endsWith("]님이 퇴장하였습니다.")) {
+						userListPanel.listRefresh();
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
