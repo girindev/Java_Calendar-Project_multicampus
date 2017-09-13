@@ -12,7 +12,7 @@ import user.UserVO;
 
 public class ServerDBConnect {
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/project";
+	private static final String DB_URL = "jdbc:mysql://70.12.115.65:3306/project";
 	private static final String DB_ID = "root";
 	private static final String DB_PW = "sds1501";
 
