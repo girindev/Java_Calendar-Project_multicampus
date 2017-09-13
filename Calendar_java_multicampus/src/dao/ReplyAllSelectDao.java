@@ -15,25 +15,6 @@ public class ReplyAllSelectDao {
 		dao = new ConnectionInit();
 	}
 	
-	public ArrayList<ReplyVo> selectReplyAllList(String date) {
-		new ArrayList<>();
-		ArrayList<ReplyVo> replyList = new ArrayList<>();
-		String sql = "Select * from comment where com_date like '"+date+"%'";
-		rs = dao.selectQuery(sql);
-		try {
-			while (rs.next()) {
-				String com_comment = rs.getString("com_text");
-				Date com_date = rs.getTimestamp("com_date");
-				String com_write_id = rs.getString("com_write_id");
-				int com_num = rs.getInt("com_num");
-				replyList.add(new ReplyVo(com_comment, com_date, com_write_id,com_num));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		return replyList;
-	}
 	
 	public ArrayList<ReplyVo> selectCommentList(int scheduleNum) {
 		new ArrayList<>();
@@ -45,8 +26,8 @@ public class ReplyAllSelectDao {
 				String com_comment = rs.getString("com_text");
 				Date com_date = rs.getTimestamp("com_date");
 				String com_write_id = rs.getString("com_write_id");
-				int com_sch_num = rs.getInt("com_sch_num");
-				replyList.add(new ReplyVo(com_comment, com_date, com_write_id,com_sch_num));
+				int com_num = rs.getInt("com_sch_num");
+				replyList.add(new ReplyVo(com_comment, com_date, com_write_id,com_num));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -54,5 +35,5 @@ public class ReplyAllSelectDao {
 		}		
 		return replyList;
 	}
-	
+
 }
