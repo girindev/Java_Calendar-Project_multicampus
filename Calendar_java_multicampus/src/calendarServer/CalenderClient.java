@@ -17,7 +17,7 @@ public class CalenderClient {
 	// TCP Åë½Å ¸â¹ö
 	private BufferedReader br;
 	private BufferedWriter bw;
-	private String IPAddress = "127.0.0.1";//70.12.115.74
+	private String IPAddress = "70.12.115.74";//70.12.115.74
 	private IRefreshListener iRefreshListener;
 	
 	
