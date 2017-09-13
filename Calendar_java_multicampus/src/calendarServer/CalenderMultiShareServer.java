@@ -85,7 +85,7 @@ public class CalenderMultiShareServer {
 		// 현재 쓰레드가 담당하는 클라이언트에게 메세지 보내기
 		public void speak(String msg) {
 			try {
-				bw.write(msg);
+				bw.write(msg+"\n");
 				bw.flush();
 			} catch (IOException e) {
 				// 클라이언트 퇴장
