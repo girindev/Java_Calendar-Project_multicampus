@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import calendarServer.CalenderClient;
 import popUp.AddSchedule;
 import popUp.IRefreshListener;
 import popUp.OtherSchedule;
@@ -20,10 +21,11 @@ public class DateClickListener implements MouseListener {
 	private JPanel datePanel[][];
 	private IRefreshListener iRefreshListener;
 	private int schPk;
+	private CalenderClient client;
 	
 	public DateClickListener(int i, int j, int calYear, int calMonth, 
 			int calDates[][],int calHour, int calMinute, String id,
-			JPanel datePanel[][], IRefreshListener iRefreshListener) {
+			JPanel datePanel[][], IRefreshListener iRefreshListener,CalenderClient client) {
 		this.i = i;
 		this.j = j;
 		this.calYear = calYear;
@@ -34,13 +36,13 @@ public class DateClickListener implements MouseListener {
 		this.iRefreshListener = iRefreshListener;
 		this.datePanel = datePanel;
 		this.id = id;
-		
+		this.client = client;
 	}
 
 	public DateClickListener(int i, int j, String content, int calYear, int calMonth, 
 			int calDates[][],int calHour, int calMinute, String id, int schPk,
-			JPanel datePanel[][], IRefreshListener iRefreshListener) {
-		this(i, j, calYear, calMonth, calDates, calHour, calMinute, id, datePanel, iRefreshListener);
+			JPanel datePanel[][], IRefreshListener iRefreshListener, CalenderClient client) {
+		this(i, j, calYear, calMonth, calDates, calHour, calMinute, id, datePanel, iRefreshListener, client);
 		this.content = content;
 		this.schPk =schPk;
 
@@ -53,7 +55,7 @@ public class DateClickListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource() == datePanel[i][j]) {
-			AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j], calHour, calMinute, id);
+			AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j], calHour, calMinute, id, client);
 			n.setRefreshListener(iRefreshListener);
 		} else {
 			//ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);

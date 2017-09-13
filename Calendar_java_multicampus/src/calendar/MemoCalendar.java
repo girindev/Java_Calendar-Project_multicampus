@@ -49,7 +49,7 @@ class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
    Calendar today = Calendar.getInstance();
    Calendar cal;
    AddSchedule popUp01;
-
+   
    public CalendarDataManager() {
       setToday();
    }
@@ -129,12 +129,13 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
    JButton nYearBut;
    ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons();
 
+   CalenderClient client;
+   
    JPanel group = new JPanel();
    UserListPanel groupLogin = new UserListPanel();
    ChattingPanel groupChat = new ChattingPanel();
-
-   //캘린더 클라이언트
-   CalenderClient calenderClient = new CalenderClient(this);
+   
+   
    
    
    // 그룹 참여 레이아웃 테스트
@@ -157,6 +158,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
    public MemoCalendar(String id) { // 구성요소 순으로 정렬되어 있음. 각 판넬 사이에 빈줄로 구별
       this.id = id;
+      client = new CalenderClient(this);
       mainFrame = new JFrame(title);
       mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       mainFrame.setSize(1200, 800);
@@ -258,7 +260,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
                // 클릭한 패널 날짜 받아오기 위한 마우스 리스너생성
                datePanel[i][j].addMouseListener(new DateClickListener(i, j, 
                      calYear, calMonth, calDates, calHour, calMinute,id,
-                     datePanel, MemoCalendar.this));
+                     datePanel, MemoCalendar.this, client));
             }
 
             datePanel[i][j].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
@@ -300,6 +302,8 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
       focusToday(); // 현재 날짜에 focus를 줌 (mainFrame.setVisible(true) 이후에 배치해야함)
 
+      
+      
    }
 
    private void focusToday() {
@@ -404,7 +408,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
                   label.setForeground(Color.white);
                   label.addMouseListener(new DateClickListener(i, j, label.getText(),  
                         calYear, calMonth, calDates, calHour, calMinute, 
-                        id, sv.getSchPK(),datePanel, MemoCalendar.this));
+                        id, sv.getSchPK(),datePanel, MemoCalendar.this, client));
                   label.setBackground(UserColor.getCalcColor(sv.getColor())); // 서버에서 받아오는 색상으로 변경
                   datePanel[i][j].add(label);
 

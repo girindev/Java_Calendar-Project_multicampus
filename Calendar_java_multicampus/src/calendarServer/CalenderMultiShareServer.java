@@ -40,9 +40,9 @@ public class CalenderMultiShareServer {
 
 	// 서버 리스트에 있는 모든 쓰레드에게 메세지 발송 명령해서
 	// 모든 클라이언트에게 메세지 발송하기 메소드
-	public void broadCast() {
+	public void broadCast(String msg) {
 		for (CalendarThread t : threadList) {
-			t.speak();
+			t.speak(msg);
 		}
 	}
 
@@ -70,16 +70,24 @@ public class CalenderMultiShareServer {
 		@Override
 		public void run() {
 			while (true) {
-				broadCast();
+				try {
+					String msg = br.readLine();
+					broadCast(msg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					// 클라이언트 퇴장
+					 removeThread(this);
+				}
+				
 			}
-			// 클라이언트 퇴장
-			// removeThread(this);
+			
 		}
 
 		// 현재 쓰레드가 담당하는 클라이언트에게 메세지 보내기
-		public void speak() {
+		public void speak(String msg) {
 			try {
-				bw.write("1");
+				bw.write(msg);
 				bw.flush();
 			} catch (IOException e) {
 				// 클라이언트 퇴장

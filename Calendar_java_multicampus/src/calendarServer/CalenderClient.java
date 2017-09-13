@@ -17,7 +17,7 @@ public class CalenderClient {
 	// TCP Åë½Å ¸â¹ö
 	private BufferedReader br;
 	private BufferedWriter bw;
-	private String IPAddress = "70.12.115.74";
+	private String IPAddress = "127.0.0.1";//70.12.115.74
 	private IRefreshListener iRefreshListener;
 	
 	
@@ -36,6 +36,15 @@ public class CalenderClient {
 			e.printStackTrace();
 		}
 	}
+	public void sendRefreshSignal() {
+		try {
+			bw.write("1");
+			bw.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	class ListenerThread extends Thread {
 		@Override
@@ -46,6 +55,7 @@ public class CalenderClient {
 					if (receiveMsg == "-1")
 						System.out.println("ÅðÀå");
 					else {
+						System.out.println("¸Þ¼¼Áö : "+receiveMsg);
 						if(iRefreshListener != null) {
 							iRefreshListener.refresh(true);
 						}
