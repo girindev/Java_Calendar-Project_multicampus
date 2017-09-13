@@ -20,11 +20,9 @@ public class CalenderClient {
 	private String IPAddress = "70.12.115.74";
 	private IRefreshListener iRefreshListener;
 	
-	public void setIRefreshListener(IRefreshListener iRefreshListener) {
-		this.iRefreshListener = iRefreshListener;
-	}
 	
-	public CalenderClient() {
+	public CalenderClient(IRefreshListener iRefreshListener) {
+		this.iRefreshListener = iRefreshListener;
 		try {
 			Socket socket =
 					new Socket(InetAddress.getByName(IPAddress),5555);

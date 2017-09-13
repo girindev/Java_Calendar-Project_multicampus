@@ -134,7 +134,8 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
    ChattingPanel groupChat = new ChattingPanel();
 
    //캘린더 클라이언트
-   CalenderClient calenderClient = new CalenderClient();
+   CalenderClient calenderClient = new CalenderClient(this);
+   
    
    // 그룹 참여 레이아웃 테스트
    JLabel grouptest1 = new JLabel("그룹참여");
