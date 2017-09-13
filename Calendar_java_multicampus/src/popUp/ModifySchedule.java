@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import dao.ReplyAllSelectDao;
+import vo.ReplyVo;
 
 public class ModifySchedule extends JFrame {
 
@@ -24,15 +29,40 @@ public class ModifySchedule extends JFrame {
 	private JButton modifyScheduleButton;
 	private IRefreshListener iRefreshListener;
 	private JTextField textField_4;
+	private JLabel label2;
+	private JPanel panel_5;
 	public void setRefreshListener(IRefreshListener iRefreshListener) {
 		this.iRefreshListener = iRefreshListener;
 	}
-	
+	//할일 
+	//1. 내꺼냐 남꺼냐
+	//2. 셀렉트가 되는지
 	
 	
 	public ModifySchedule() {
 		
 	}
+//	
+//	///////////// 라벨값 받아오기
+//	 public void initReply(int com_num) {
+//	 ReplyAllSelectDao replyAllSelectDao = new ReplyAllSelectDao();
+//	 ArrayList<ReplyVo> replyList = replyAllSelectDao.selectReplyAllList(com_num);
+//	
+//	 for (ReplyVo sv : replyList) {
+//	
+//	 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//	 String to = transFormat.format(sv.getDate());
+//	 String day = to.substring(8, 10);
+//	
+//	 label2 = new JLabel(sv.getComment());
+//	 label2.setSize(50, 10);
+//	 label2.setOpaque(true);
+//	 //label.addMouseListener(new dateClickListener(3, 3, label.getText()));
+//	 panel_5.add(label2);
+//	
+//	 }
+//	 }
+	
 	public ModifySchedule(int year, int month, int day, String content) {
 				
 		setBounds(100, 100, 450, 300);
