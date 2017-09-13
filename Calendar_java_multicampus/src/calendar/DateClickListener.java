@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import popUp.AddSchedule;
 import popUp.IRefreshListener;
-import popUp.ModifySchedule;
+import popUp.OtherSchedule;
 /**
  * @author 박성훈
  * 캘린더 날짜 패널 클릭리스너
@@ -43,6 +43,7 @@ public class DateClickListener implements MouseListener {
 		this(i, j, calYear, calMonth, calDates, calHour, calMinute, id, datePanel, iRefreshListener);
 		this.content = content;
 		this.schPk =schPk;
+
 	}
 
 	@Override
@@ -55,7 +56,9 @@ public class DateClickListener implements MouseListener {
 			AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j], calHour, calMinute, id);
 			n.setRefreshListener(iRefreshListener);
 		} else {
-			ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
+			//ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
+			OtherSchedule n2 = new OtherSchedule(calYear, calMonth + 1, calDates[i][j], content, id, schPk, calHour, calMinute);
+			n2.setRefreshListener(iRefreshListener);
 		}
 	}
 
