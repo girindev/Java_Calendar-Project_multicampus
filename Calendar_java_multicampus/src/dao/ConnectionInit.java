@@ -6,22 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import util.DBconnectionString;
+
 public class ConnectionInit {
-	private static final String DB_DRIVER =
-			"com.mysql.jdbc.Driver";
-	private static final String DB_URL = 
-			"jdbc:mysql://70.12.115.65:3306/project";
-	private static final String DB_ID = "root";
-	private static final String DB_PW = "sds1501";
-	
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs = null;
 	
 	public ConnectionInit() {
 		try {
-			Class.forName(DB_DRIVER);
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			Class.forName(DBconnectionString.DB_DRIVER);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
