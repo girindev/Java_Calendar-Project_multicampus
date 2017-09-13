@@ -130,7 +130,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
 
    JPanel group = new JPanel();
    UserListPanel groupLogin = new UserListPanel();
-   ChattingPanel groupChat = new ChattingPanel();
+   ChattingPanel groupChat = new ChattingPanel(groupLogin);
 
    // 그룹 참여 레이아웃 테스트
    JLabel grouptest1 = new JLabel("그룹참여");
