@@ -6,16 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import user.UserVO;
+import util.DBconnectionString;
 
 public class ServerDBConnect {
-	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://70.12.115.65:3306/project";
-	private static final String DB_ID = "root";
-	private static final String DB_PW = "sds1501";
-
 //	private static Connection con = null;
 	public Connection con;
 	private PreparedStatement pstmt;
@@ -35,7 +29,7 @@ public class ServerDBConnect {
 
 	public void connection() {
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

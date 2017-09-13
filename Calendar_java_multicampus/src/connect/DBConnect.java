@@ -10,12 +10,9 @@ import java.util.ArrayList;
 
 import chattingServer.ChatVO;
 import user.UserVO;
+import util.DBconnectionString;
 
 public class DBConnect {
-	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/project";
-	private static final String DB_ID = "root";
-	private static final String DB_PW = "sds1501";
 
 //	private static Connection con = null;
 	public Connection con;
@@ -39,7 +36,7 @@ public class DBConnect {
 		ArrayList<UserVO> userArr = new ArrayList<>();
 		UserVO user;
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "select * from MEMBER order by connect desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -66,7 +63,7 @@ public class DBConnect {
 		ArrayList<ChatVO> chatVO = new ArrayList<>();
 		ChatVO chat;
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "select msg_num, msg, write_time from chat order by msg_num desc limit 30";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();

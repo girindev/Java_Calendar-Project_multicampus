@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import popUp.IRefreshListener;
 /**
  * @author 박성훈
  * 다른 사용자와 캘린더 공유(통신) 클라이언트단
@@ -16,6 +18,12 @@ public class CalenderClient {
 	private BufferedReader br;
 	private BufferedWriter bw;
 	private String IPAddress = "70.12.115.74";
+	private IRefreshListener iRefreshListener;
+	
+	public void setIRefreshListener(IRefreshListener iRefreshListener) {
+		this.iRefreshListener = iRefreshListener;
+	}
+	
 	public CalenderClient() {
 		try {
 			Socket socket =
@@ -24,23 +32,26 @@ public class CalenderClient {
 					new InputStreamReader(socket.getInputStream()));
 			bw = new BufferedWriter(
 					new OutputStreamWriter(socket.getOutputStream()));
-			
+			new ListenerThread().start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	class ListenThread extends Thread {
+	class ListenerThread extends Thread {
 		@Override
 		public void run() {
 			try {
 				while (true) {
 					String receiveMsg = br.readLine();
-//					if (receiveMsg == "-1")
-						//끊김 처리
-//					else 
-//						refresh();
+					if (receiveMsg == "-1")
+						System.out.println("퇴장");
+					else {
+						if(iRefreshListener != null) {
+							iRefreshListener.refresh(true);
+						}
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

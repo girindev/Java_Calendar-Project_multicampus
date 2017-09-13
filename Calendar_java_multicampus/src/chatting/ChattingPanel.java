@@ -77,6 +77,7 @@ public class ChattingPanel extends JPanel implements ActionListener {
 	private void settingNetwork() {
 		
 		try {
+			System.out.println("new socket test");
 			Socket socket = new Socket(InetAddress.getByName("70.12.115.65"), 5555);
 
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));

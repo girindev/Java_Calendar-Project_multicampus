@@ -42,6 +42,7 @@ public class UserListPanel extends JPanel {
 
 		int j = 1;
 		for (int i = 0; i < userListArr.size(); i++) {
+			System.out.println(userListArr.size());
 			if (!userListArr.get(i).getUserID().equals(Info.id)) {
 				userArr[j++] = userListArr.get(i);
 			}
