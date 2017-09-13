@@ -145,7 +145,7 @@ public class AddSchedule extends JFrame {
 				if (result == 1 && iRefreshListener != null) {
 					boolean flag = true;
 					iRefreshListener.refresh(flag);
-					client.sendRefreshSignal();
+					client.sendRefreshSignal("1");
 				}
 			}
 		}

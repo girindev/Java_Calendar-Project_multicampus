@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 박성훈
- * 캘린더 서버로 다른 사용자에게 공유
+ * @author 박성훈 캘린더 서버로 다른 사용자에게 공유
  */
 public class CalenderMultiShareServer {
 	private ServerSocket serverSocket;
@@ -69,19 +68,18 @@ public class CalenderMultiShareServer {
 
 		@Override
 		public void run() {
-			while (true) {
-				try {
+			try {
+				while (true) {
 					String msg = br.readLine();
+					System.out.println(msg);
 					broadCast(msg);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					// 클라이언트 퇴장
-					 removeThread(this);
 				}
-				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				// 클라이언트 퇴장
+				removeThread(this);
 			}
-			
 		}
 
 		// 현재 쓰레드가 담당하는 클라이언트에게 메세지 보내기
@@ -91,13 +89,12 @@ public class CalenderMultiShareServer {
 				bw.flush();
 			} catch (IOException e) {
 				// 클라이언트 퇴장
-				 removeThread(this);
+				removeThread(this);
 				e.printStackTrace();
 			}
 		}
-
 	}
-	
+
 	public static void main(String[] args) {
 		new CalenderMultiShareServer();
 	}

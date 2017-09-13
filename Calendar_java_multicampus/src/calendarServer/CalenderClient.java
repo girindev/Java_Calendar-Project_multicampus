@@ -36,9 +36,10 @@ public class CalenderClient {
 			e.printStackTrace();
 		}
 	}
-	public void sendRefreshSignal() {
+	public void sendRefreshSignal(String msg) {
 		try {
-			bw.write("1");
+			System.out.println(msg);
+			bw.write(msg+"\n");
 			bw.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -150,27 +150,27 @@ public class Login extends JFrame implements ActionListener {
 		passwordField.addActionListener(this);
 		logButton.addActionListener(this);
 
-		logButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				String id = idTextField.getText();
-				String pw = new String(passwordField.getPassword());
-
-				sVo = dao.selectLogin(id, pw);
-				if (sVo == null) {
-					label.setText("잘못 입력하였습니다.");
-				} else {
-					Login.this.setVisible(false);
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							new MemoCalendar(idTextField.getText());
-						}
-					});
-				}
-			}
-		});
+//		logButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//				String id = idTextField.getText();
+//				String pw = new String(passwordField.getPassword());
+//
+//				sVo = dao.selectLogin(id, pw);
+//				if (sVo == null) {
+//					label.setText("잘못 입력하였습니다.");
+//				} else {
+//					Login.this.setVisible(false);
+//					SwingUtilities.invokeLater(new Runnable() {
+//						public void run() {
+//							new MemoCalendar(idTextField.getText());
+//						}
+//					});
+//				}
+//			}
+//		});
 
 		panel_3.add(logButton);// 회원가입
 		JButton signButton = new JButton("회원가입");
