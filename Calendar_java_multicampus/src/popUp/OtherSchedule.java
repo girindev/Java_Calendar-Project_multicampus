@@ -47,6 +47,7 @@ public class OtherSchedule extends JFrame {
 	private JPanel panel_4;
 	private String writerId;
 	private CalenderClient client;
+	private JButton schDelete;
 
 	private IRefreshListener iRefreshListener;
 
@@ -90,7 +91,6 @@ public class OtherSchedule extends JFrame {
 					public void mouseClicked(MouseEvent e) {
 						ReplyDeleteDao delDao = new ReplyDeleteDao();
 						int result = delDao.delete(sv.getCom_num());
-						System.out.println(result);
 						panel_5.removeAll();
 						getReply(schPk);
 						panel_5.repaint();
@@ -149,13 +149,24 @@ public class OtherSchedule extends JFrame {
 		panel.add(lblNewLabel);
 
 		modifyScheduleButton = new JButton("수정완료");
-		if (id.equals(writerId))
+		schDelete = new JButton("일정 삭제");
+		
+		
+		if (id.equals(writerId)) {
 			modifyScheduleButton.setEnabled(true);
-		else
+			schDelete.setEnabled(true);
+		}
+		else {
 			modifyScheduleButton.setEnabled(false);
+			schDelete.setEnabled(false);
+		}
+		
 		modifyScheduleButton.addActionListener(new addScheduleListener());
-		panel.add(modifyScheduleButton, BorderLayout.EAST);
-
+		schDelete.addActionListener(new deleteScheduleListener());
+		
+		
+		panel.add(modifyScheduleButton, BorderLayout.CENTER);
+		panel.add(schDelete, BorderLayout.EAST);
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 17, 10));
@@ -257,6 +268,33 @@ public class OtherSchedule extends JFrame {
 				sch = textField_1.getText();
 				ModifyScheduleDAO modsch = new ModifyScheduleDAO();
 				int result = modsch.update(sch, textField_2.getText(), schPk);
+				repaint();
+				invalidate();
+				validate();
+				dispose();
+				if (result == 1 && iRefreshListener != null) {
+					boolean flag = true;
+					iRefreshListener.refresh(flag);
+					client.sendRefreshSignal("1");
+				}
+			}
+		}
+	}
+	
+	class deleteScheduleListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (schDelete == e.getSource()) {
+				
+				DeleteScheduleDAO delsch = new DeleteScheduleDAO();
+				
+				int result2 = delsch.deletereply(schPk);
+				System.out.println(result2);
+				
+				int result = delsch.deletesch(schPk);
+				System.out.println(result);
+			
 				repaint();
 				invalidate();
 				validate();
