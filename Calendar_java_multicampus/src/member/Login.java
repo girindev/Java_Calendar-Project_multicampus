@@ -125,7 +125,7 @@ public class Login extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				Login.this.setVisible(false);
 				new Pwfind();
-
+				
 			}
 		});
 
@@ -207,7 +207,7 @@ public class Login extends JFrame implements ActionListener {
 				}
 			});
 		}
-
+		
 	}
-
+	
 }
