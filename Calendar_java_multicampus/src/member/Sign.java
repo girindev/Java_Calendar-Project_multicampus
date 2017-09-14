@@ -150,7 +150,7 @@ public class Sign extends JFrame {
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_4);
 
-		JLabel nameLabel = new JLabel("이름:                 ");
+		JLabel nameLabel = new JLabel("이름:                     ");
 		panel_4.add(nameLabel);
 
 		nameTextField = new JTextField();
@@ -164,7 +164,7 @@ public class Sign extends JFrame {
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_5);
 
-		JLabel lblNewLabel_3 = new JLabel("생년월일:         ");
+		JLabel lblNewLabel_3 = new JLabel("생년월일:            ");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_5.add(lblNewLabel_3);
 
@@ -196,7 +196,7 @@ public class Sign extends JFrame {
 		flowLayout_4.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panel_6);
 
-		JLabel label_3 = new JLabel("핸드폰:            ");
+		JLabel label_3 = new JLabel("핸드폰:                ");
 		label_3.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_6.add(label_3);
 
