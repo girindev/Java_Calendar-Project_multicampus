@@ -2,6 +2,7 @@ package calendar;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Date;
 
 import javax.swing.JPanel;
 
@@ -20,6 +21,7 @@ public class DateClickListener implements MouseListener {
 	private JPanel datePanel[][];
 	private IRefreshListener iRefreshListener;
 	private int schPk;
+	private Date time;
 	
 	public DateClickListener(int i, int j, int calYear, int calMonth, 
 			int calDates[][],int calHour, int calMinute, String id,
@@ -38,12 +40,12 @@ public class DateClickListener implements MouseListener {
 	}
 
 	public DateClickListener(int i, int j, String content, int calYear, int calMonth, 
-			int calDates[][],int calHour, int calMinute, String id, int schPk,
+			int calDates[][],int calHour, int calMinute, String id, int schPk,Date time,
 			JPanel datePanel[][], IRefreshListener iRefreshListener) {
 		this(i, j, calYear, calMonth, calDates, calHour, calMinute, id, datePanel, iRefreshListener);
 		this.content = content;
 		this.schPk =schPk;
-
+		this.time = time;
 	}
 
 	@Override
@@ -56,8 +58,7 @@ public class DateClickListener implements MouseListener {
 			AddSchedule n = new AddSchedule(calYear, calMonth + 1, calDates[i][j], calHour, calMinute, id);
 			n.setRefreshListener(iRefreshListener);
 		} else {
-			//ModifySchedule n2 = new ModifySchedule(calYear, calMonth + 1, calDates[i][j], content);
-			OtherSchedule n2 = new OtherSchedule(calYear, calMonth + 1, calDates[i][j], content, id, schPk, calHour, calMinute);
+			OtherSchedule n2 = new OtherSchedule(calYear, calMonth + 1, calDates[i][j], content, id, schPk, calHour, calMinute, time);
 			n2.setRefreshListener(iRefreshListener);
 		}
 	}
