@@ -25,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import calendarServer.CalenderClient;
@@ -400,14 +403,27 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
                   label.setMinimumSize(new Dimension(111,15));
                   label.setPreferredSize(new Dimension(111,15));
                   label.setMaximumSize(new Dimension(111,15));
-                  
                   label.setOpaque(true);
                   label.setForeground(Color.white);
                   label.addMouseListener(new DateClickListener(i, j, label.getText(),  
                         calYear, calMonth, calDates, calHour, calMinute, 
-                        id, sv.getSchPK(),sv.getDate(),datePanel, MemoCalendar.this,client));
+                        id, sv.getSchPK(),sv.getDate(),datePanel, MemoCalendar.this,client, sv.getName()));
                   label.setBackground(UserColor.getCalcColor(sv.getColor())); // 서버에서 받아오는 색상으로 변경
+                  
+                  if (datePanel[i][j].getComponentCount() > 4) {
+//                	  JLabel
+                  }
                   datePanel[i][j].add(label);
+                  
+                  
+                  JLabel marginLabel = new JLabel();
+                  marginLabel.setMinimumSize(new Dimension(111,2));
+                  marginLabel.setPreferredSize(new Dimension(111,2));
+                  marginLabel.setMaximumSize(new Dimension(111,2));
+                  marginLabel.setOpaque(true);
+                  
+                  datePanel[i][j].add(marginLabel);
+                  
 
                   mainFrame.repaint();
                   mainFrame.invalidate();
