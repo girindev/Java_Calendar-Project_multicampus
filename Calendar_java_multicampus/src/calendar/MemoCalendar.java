@@ -400,7 +400,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
                   label.setForeground(Color.white);
                   label.addMouseListener(new DateClickListener(i, j, label.getText(),  
                         calYear, calMonth, calDates, calHour, calMinute, 
-                        id, sv.getSchPK(),datePanel, MemoCalendar.this));
+                        id, sv.getSchPK(),sv.getDate(),datePanel, MemoCalendar.this));
                   label.setBackground(UserColor.getColor(sv.getColor())); // 서버에서 받아오는 색상으로 변경
                   datePanel[i][j].add(label);
 
