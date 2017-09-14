@@ -1,48 +1,56 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 
-import vo.ReplyVo;
-	
 public class ReplyDeleteDao {
-	private ConnectionInit dao;
-	private ConnectionInit pstmt;
-	private ResultSet rs = null;
+	private static final String DRIVER_NAME = 
+			"com.mysql.jdbc.Driver";
+	private static final String DB_URL = 
+			"jdbc:mysql://127.0.0.1:3306/project";
+	private static final String DB_ID = "root";
+	private static final String DB_PW = "sds1501";
 	
-	public ReplyDeleteDao() {
-		dao = new ConnectionInit();
+	public ReplyDeleteDao(){
+		try {
+			Class.forName(DRIVER_NAME);
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 오류/jar파일 또는 스트링 확인 요망");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public ArrayList<ReplyVo> selectCommentList(int com_num) {
-		new ArrayList<>();
-		ArrayList<ReplyVo> replyList = new ArrayList<>();
-		String sql = "delete from comment where com_num="+com_num;
-		rs = dao.selectQuery(sql);
-	
-//		try {
-//			pstmt = con.prepareStatement(sql);
-//			pstmt.setString(1, book.getTitle());
-//			// 5. insert, update, delete : executeUpdate메소드 (리턴int)
-//			result = pstmt.executeUpdate();
-//			
-//			while (rs.next()) {
-//				String com_comment = rs.getString("com_text");
-//				Date com_date = rs.getTimestamp("com_date");
-//				String com_write_id = rs.getString("com_write_id");
-//				int com_num = rs.getInt("com_sch_num");
-//				replyList.add(new ReplyVo(com_comment, com_date, com_write_id,com_num));
-//				replyList.remove(index);
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}	
+	public int delete(int com_num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
 		
-		return replyList;
+		try {
+			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			String sql = "delete from comment where com_num=?";
+					
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, com_num);
+			
+			result = pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if(pstmt!=null)
+				try {pstmt.close();} catch (SQLException e) {}
+			if(con!=null)
+				try {con.close();} catch (SQLException e) {}
+		}
+		return result;
 	}
 }
+
+
+
+
+
