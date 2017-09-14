@@ -15,13 +15,14 @@ public class ScheduleAllSelectDao {
 		dao = new ConnectionInit();
 	}
 	
-	public ArrayList<ScheduleVo> selectScheduleAllList(String date) {
+	public ArrayList<ScheduleVo> selectScheduleAllList(String date, String names) {
 		new ArrayList<>();
 		ArrayList<ScheduleVo> scheduleList = new ArrayList<>();
 		String sql = "Select sch_num, sch_title,sch_write_id, sch_date, color "
 				+ "from schedule, member "
 				+ "where (sch_date like '"+date+"%') "
-						+ "AND (sch_write_id = name)";
+						+ "AND (sch_write_id = name) " + names;
+		System.out.println(sql);
 		rs = dao.selectQuery(sql);
 		try {
 			while (rs.next()) {		

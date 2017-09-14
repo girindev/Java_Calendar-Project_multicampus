@@ -3,20 +3,20 @@ package user;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 
 import connect.DBConnect;
 import member.Info;
+import popUp.IRefreshListener;
 
 
 class UserCheckList{
@@ -32,11 +33,14 @@ class UserCheckList{
 }
 public class UserListPanel extends JPanel {
 	private UserVO[] userArr;
-
-	public UserListPanel() {
+	private Set<UserVO> nowUserCheckList = new HashSet<>();
+	private IRefreshListener iRefreshListener;
+	
+	public UserListPanel(IRefreshListener iRefreshListener) {
 		DBConnect dbCon = new DBConnect();
 		ArrayList<UserVO> userListArr = dbCon.getUserList();
 		userArr = new UserVO[userListArr.size()];
+		this.iRefreshListener = iRefreshListener;
 		
 		UserVO me = new UserVO();
 		me.setUserID(Info.id);
@@ -45,6 +49,7 @@ public class UserListPanel extends JPanel {
 		me.setConnect(Info.connect);
 		userArr[0] = me;
 
+		nowUserCheckList.add(me);
 		int j = 1;
 		for (int i = 0; i < userListArr.size(); i++) {
 			System.out.println(userListArr.size());
@@ -58,7 +63,6 @@ public class UserListPanel extends JPanel {
 	}
 	
 	public void listRefresh() {
-		System.out.println("userList refresh");
 		DBConnect dbCon = new DBConnect();
 		ArrayList<UserVO> getListArr = dbCon.getUserList();
 		
@@ -97,6 +101,12 @@ public class UserListPanel extends JPanel {
 				item.setSelected(!item.isSelected());
 				Rectangle rect = list.getCellBounds(index, index);
 				list.repaint(rect);
+				
+				if (nowUserCheckList.add(item) == false) {
+					nowUserCheckList.remove(item);
+				}
+				
+				iRefreshListener.refresh(true);
 			}
 		});
 		JScrollPane sp = new JScrollPane(list);
@@ -166,5 +176,22 @@ public class UserListPanel extends JPanel {
 			setText(value.toString() + "  " + conStr);
 			return this;
 		}
+	}
+	public String getUserList() {
+		StringBuffer userId = new StringBuffer(" AND (sch_write_id = ");
+		if (nowUserCheckList.size() == 0) {
+			userId.append("null");
+		} else {
+			int i=1;
+			for (UserVO v : nowUserCheckList) {
+				userId.append("'"+ v.getName()+"'");
+				if (i < nowUserCheckList.size()) {
+					userId.append(" OR sch_write_id =");
+					i++;
+				}
+			}
+		}
+		userId.append(")");
+		return userId.toString();
 	}
 }
