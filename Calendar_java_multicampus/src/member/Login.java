@@ -125,7 +125,6 @@ public class Login extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				Login.this.setVisible(false);
 				new Pwfind();
-				
 			}
 		});
 
@@ -200,6 +199,7 @@ public class Login extends JFrame implements ActionListener {
 			System.out.println(sVo.getId()+"///"+sVo.getName());
 			info.id=sVo.getId();
 			info.name=sVo.getName();
+			
 			Login.this.setVisible(false);
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -207,7 +207,5 @@ public class Login extends JFrame implements ActionListener {
 				}
 			});
 		}
-		
 	}
-	
 }

@@ -25,6 +25,11 @@ import javax.swing.UIManager;
 import connect.DBConnect;
 import member.Info;
 
+
+class UserCheckList{
+	
+	
+}
 public class UserListPanel extends JPanel {
 	private UserVO[] userArr;
 

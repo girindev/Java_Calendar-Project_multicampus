@@ -43,12 +43,12 @@ public class SignDao {
 			if(rs.next()) {
 				result = new SignVo();
 				
-				
 				result.setId(rs.getString(1));
 				result.setPw(rs.getString(2));
 				result.setName(rs.getString(3));
-				
 			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -172,6 +172,9 @@ public class SignDao {
 		return result;
 	}
 	
+	/*
+	 * 회원가입
+	 * */
 	public int insertSignDao(SignVo sign)	{
 		int result=0;
 		
