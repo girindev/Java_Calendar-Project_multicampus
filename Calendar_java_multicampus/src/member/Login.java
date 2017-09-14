@@ -196,7 +196,6 @@ public class Login extends JFrame implements ActionListener {
 		if (sVo == null) {
 			label.setText("잘못 입력하였습니다.");
 		} else {
-			System.out.println(sVo.getId()+"///"+sVo.getName());
 			info.id=sVo.getId();
 			info.name=sVo.getName();
 			
