@@ -64,7 +64,8 @@ public class MultiChattingServer {
 
 	// 하나의 클라이언트가 접속했을 때 담당 쓰레드 클래스
 	class ChattingThread extends Thread {
-		private String nickname;
+//		private String nickname;
+		private String[] userInfo;
 		private BufferedReader br;
 		private BufferedWriter bw;
 
@@ -82,18 +83,19 @@ public class MultiChattingServer {
 		@Override
 		public void run() {
 			try {
-				nickname = br.readLine();
-				broadcast("[" + nickname + "]님이 입장하셨습니다.");
-
+				String read = br.readLine();
+				userInfo = read.split("/");// 0 - name, 1 - id
+				int result = dbCon.updateConnect(1, userInfo[1]);
+				broadcast("[" + userInfo[0] + "]님이 입장하셨습니다.");
 				while (true) {
 					String msg = br.readLine();
-					broadcast(nickname + ":" + msg);
+					broadcast(userInfo[0] + ":" + msg);
 				}
 			} catch (IOException e) {
 				// 담당 클라이언트가 퇴장했을 때
 				removeThread(this);
-				System.out.println(nickname+"퇴장");
-				broadcast("[" + nickname + "]님이 퇴장하였습니다.");
+				int result = dbCon.updateConnect(0, userInfo[1]);
+				broadcast("[" + userInfo[0] + "]님이 퇴장하였습니다.");
 				// e.printStackTrace();
 			}
 		}

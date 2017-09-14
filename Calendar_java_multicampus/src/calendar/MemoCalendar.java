@@ -133,11 +133,8 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
    
    JPanel group = new JPanel();
    UserListPanel groupLogin = new UserListPanel();
-   ChattingPanel groupChat = new ChattingPanel();
-   
-   
-   
-   
+   ChattingPanel groupChat = new ChattingPanel(groupLogin);
+
    // 그룹 참여 레이아웃 테스트
    JLabel grouptest1 = new JLabel("그룹참여");
    JLabel grouptest2 = new JLabel("그룹 채팅방 자리");
@@ -408,7 +405,7 @@ public class MemoCalendar extends CalendarDataManager implements IRefreshListene
                   label.setForeground(Color.white);
                   label.addMouseListener(new DateClickListener(i, j, label.getText(),  
                         calYear, calMonth, calDates, calHour, calMinute, 
-                        id, sv.getSchPK(),datePanel, MemoCalendar.this, client));
+                        id, sv.getSchPK(),sv.getDate(),datePanel, MemoCalendar.this,client));
                   label.setBackground(UserColor.getCalcColor(sv.getColor())); // 서버에서 받아오는 색상으로 변경
                   datePanel[i][j].add(label);
 
