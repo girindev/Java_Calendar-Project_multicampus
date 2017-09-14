@@ -17,6 +17,7 @@ import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class IdFind extends JFrame {
 
@@ -61,6 +62,7 @@ public class IdFind extends JFrame {
 		
 		// 1. 이름입력
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setVgap(15);
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -78,6 +80,7 @@ public class IdFind extends JFrame {
 		
 		// 2.생년월일 입력
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
 		flowLayout_1.setVgap(15);
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
@@ -112,6 +115,7 @@ public class IdFind extends JFrame {
 		
 		// 3. 핸드폰번호 입력
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
 		FlowLayout flowLayout_2 = (FlowLayout) panel_2.getLayout();
 		flowLayout_2.setVgap(15);
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
@@ -128,6 +132,7 @@ public class IdFind extends JFrame {
 		
 		// 4. 아이디출력부분
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
 		
 		
 		contentPane.add(panel_3);
@@ -139,6 +144,7 @@ public class IdFind extends JFrame {
 		
 		// 5. 찾기취소 버튼
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
 		FlowLayout flowLayout_3 = (FlowLayout) panel_4.getLayout();
 		flowLayout_3.setVgap(15);
 		contentPane.add(panel_4);

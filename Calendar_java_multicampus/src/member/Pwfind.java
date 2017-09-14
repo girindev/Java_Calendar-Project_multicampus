@@ -13,6 +13,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class Pwfind extends JFrame {
 
@@ -56,6 +57,7 @@ public class Pwfind extends JFrame {
 		
 		// 1. ID입력
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setVgap(13);
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -71,6 +73,7 @@ public class Pwfind extends JFrame {
 		
 		// 2. 이름
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
 		flowLayout_1.setVgap(13);
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
@@ -86,6 +89,7 @@ public class Pwfind extends JFrame {
 		
 		// 3. 생년월일
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
 		FlowLayout flowLayout_2 = (FlowLayout) panel_2.getLayout();
 		flowLayout_2.setVgap(13);
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
@@ -118,6 +122,7 @@ public class Pwfind extends JFrame {
 		
 		// 4. 핸드폰 입력
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
 		FlowLayout flowLayout_3 = (FlowLayout) panel_3.getLayout();
 		flowLayout_3.setVgap(13);
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
@@ -131,6 +136,7 @@ public class Pwfind extends JFrame {
 		phonTextField.setColumns(10);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
 		contentPane.add(panel_4);
 		JLabel pwFindLabel=new JLabel();
 		panel_4.add(pwFindLabel);
@@ -138,6 +144,7 @@ public class Pwfind extends JFrame {
 		
 		// 5. 비밀번호 출력부분
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(Color.WHITE);
 		FlowLayout flowLayout_4 = (FlowLayout) panel_5.getLayout();
 		flowLayout_4.setVgap(15);
 		contentPane.add(panel_5);
