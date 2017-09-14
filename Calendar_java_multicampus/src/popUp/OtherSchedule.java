@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import calendarServer.CalenderClient;
 import dao.ReplyAllSelectDao;
 import dao.ReplyDeleteDao;
 import vo.ReplyVo;
@@ -44,6 +45,8 @@ public class OtherSchedule extends JFrame {
 	private JTextField textField_2;
 	private String time2;
 	private JPanel panel_4;
+	private String writerId;
+	private CalenderClient client;
 
 	private IRefreshListener iRefreshListener;
 
@@ -64,44 +67,46 @@ public class OtherSchedule extends JFrame {
 			// textField_2 = new JTextField();
 			removeLabel = new JLabel("삭제");
 
-			if (id.equals("박은정")) {
-				if (sv.getName().equals("박은정")) {
-					removeLabel.addMouseListener(new MouseListener() {
-						@Override
-						public void mouseReleased(MouseEvent e) {
-						}
+			if (sv.getName().equals(id)) {
+				removeLabel.setVisible(true);
+				removeLabel.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent e) {
+					}
 
-						@Override
-						public void mousePressed(MouseEvent e) {
-						}
+					@Override
+					public void mousePressed(MouseEvent e) {
+					}
 
-						@Override
-						public void mouseExited(MouseEvent e) {
-						}
+					@Override
+					public void mouseExited(MouseEvent e) {
+					}
 
-						@Override
-						public void mouseEntered(MouseEvent e) {
-						}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+					}
 
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							ReplyDeleteDao delDao = new ReplyDeleteDao();
-							delDao.delete(sv.getCom_num());
-							panel_5.removeAll();
-							getReply(schPk);
-							panel_5.repaint();
-							contentPane.repaint();
-							repaint();
-							invalidate();
-							validate();
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						ReplyDeleteDao delDao = new ReplyDeleteDao();
+						int result = delDao.delete(sv.getCom_num());
+						System.out.println(result);
+						panel_5.removeAll();
+						getReply(schPk);
+						panel_5.repaint();
+						contentPane.repaint();
+						repaint();
+						invalidate();
+						validate();
 
-							if (iRefreshListener != null) {
-								boolean flag = true;
-								iRefreshListener.refresh(flag);
-							}
+						if (iRefreshListener != null) {
+							boolean flag = true;
+							iRefreshListener.refresh(flag);
 						}
-					});
-				}
+					}
+				});
+			} else {
+				removeLabel.setVisible(false);
 			}
 
 			label2.setSize(35, 10);
@@ -118,7 +123,7 @@ public class OtherSchedule extends JFrame {
 	}
 
 	public OtherSchedule(int year, int month, int day, String content, String id, int schPk, int hour, int minute,
-			Date time) {
+			Date time, String writerId, CalenderClient client) {
 
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -127,6 +132,8 @@ public class OtherSchedule extends JFrame {
 		setTitle("일정");
 		this.id = id;
 		this.schPk = schPk;
+		this.writerId = writerId;
+		this.client = client;
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -142,7 +149,7 @@ public class OtherSchedule extends JFrame {
 		panel.add(lblNewLabel);
 
 		modifyScheduleButton = new JButton("수정완료");
-		if (id.equals("박은정"))
+		if (id.equals(writerId))
 			modifyScheduleButton.setEnabled(true);
 		else
 			modifyScheduleButton.setEnabled(false);
@@ -183,7 +190,7 @@ public class OtherSchedule extends JFrame {
 
 		textField_1.setText(content); // 수정할 내용 작성하기
 
-		if (id.equals("박은정")) {
+		if (id.equals(writerId)) {
 			textField_1.setEditable(true);
 		} else
 			textField_1.setEditable(false);
@@ -199,7 +206,7 @@ public class OtherSchedule extends JFrame {
 		panel_4.add(label, BorderLayout.WEST);
 
 		// textField_2 = new JTextField();
-		if (id.equals("박은정")) {
+		if (id.equals(writerId)) {
 			time2 = transFormat.format(time);
 			textField_2 = new JTextField(time2);
 			textField_2.setEditable(true);
@@ -248,16 +255,16 @@ public class OtherSchedule extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (modifyScheduleButton == e.getSource()) {
 				sch = textField_1.getText();
-
 				ModifyScheduleDAO modsch = new ModifyScheduleDAO();
-				modsch.update(sch, textField_2.getText(), schPk);
+				int result = modsch.update(sch, textField_2.getText(), schPk);
 				repaint();
 				invalidate();
 				validate();
 				dispose();
-				if (iRefreshListener != null) {
+				if (result == 1 && iRefreshListener != null) {
 					boolean flag = true;
 					iRefreshListener.refresh(flag);
+					client.sendRefreshSignal("1");
 				}
 			}
 		}
@@ -271,10 +278,7 @@ public class OtherSchedule extends JFrame {
 
 				comment = textField_4.getText();
 				EnterCommentDAO commentadded = new EnterCommentDAO();
-				if (id.equals("박은정"))
-					commentadded.insert(comment, schPk, id, textField_2.getText());
-				else
-					commentadded.insert(comment, schPk, id, textField_2.getText());
+				commentadded.insert(comment, schPk, id, textField_2.getText());
 				textField_4.setText("");
 				panel_5.removeAll();
 				getReply(schPk);
