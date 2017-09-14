@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class UserColor {
 	public static Color getCalcColor(int color) {
-		Color returnColor = new Color(Math.abs(255 - color*450)%255, 
-				Math.abs(255 - color*250) %255, 
-				Math.abs(255 - color*150)%255);
+		Color returnColor = new Color(Math.abs(255 - color*1530)%255, 
+				Math.abs(255 - color*121) %255, 
+				Math.abs(255 - color*3217)%255);
 		return returnColor;
 	}
 }
