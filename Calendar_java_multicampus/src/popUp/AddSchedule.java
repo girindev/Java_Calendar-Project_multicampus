@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import calendarServer.CalenderClient;
+
 
 public class AddSchedule extends JFrame {
 
@@ -24,14 +26,14 @@ public class AddSchedule extends JFrame {
 	private JButton addScheduleButton;
 	private JTextField textField_2;
 	private String date;
-	
+	private CalenderClient client;
 	private IRefreshListener iRefreshListener;
 	public void setRefreshListener(IRefreshListener iRefreshListener) {
 		this.iRefreshListener = iRefreshListener;
 	}
 	private String id;	
 	
-	public AddSchedule(int year, int month, int day, int hour, int minute, String id) {
+	public AddSchedule(int year, int month, int day, int hour, int minute, String id, CalenderClient client) {
 		this.id = id;		
 		setBounds(100, 100, 450, 300);
 		setTitle("나의 일정 추가하기");
@@ -115,6 +117,9 @@ public class AddSchedule extends JFrame {
 		setVisible(true);
 		date = year + "-" + month + "-" + day + " " ;//+ textField_2.getText() + ":" + "00";
 		
+		
+		//캘린더 클라이언트
+		this.client = client;
 	}
 	class addScheduleListener implements ActionListener {
 		
@@ -128,7 +133,7 @@ public class AddSchedule extends JFrame {
 				
 				EnterScheduleDAO firstadded = new EnterScheduleDAO();
 				System.out.println(textField_2.getText());
-				firstadded.insert(textField_1.getText(),id, date+textField_2.getText()+ ":" + "00");
+				int result = firstadded.insert(textField_1.getText(),id, date+textField_2.getText()+ ":" + "00");
 				
 				///////인서트 들어갈자리 /////////
 				dispose();
@@ -137,9 +142,10 @@ public class AddSchedule extends JFrame {
 				 * memocalendar에 addschedule 종료 됐다고 알려주기
 				 * 
 				 * */
-				if (iRefreshListener != null) {
+				if (result == 1 && iRefreshListener != null) {
 					boolean flag = true;
 					iRefreshListener.refresh(flag);
+					client.sendRefreshSignal("1");
 				}
 			}
 		}

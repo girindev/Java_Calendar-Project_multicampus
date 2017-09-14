@@ -25,6 +25,11 @@ import javax.swing.UIManager;
 import connect.DBConnect;
 import member.Info;
 
+
+class UserCheckList{
+	
+	
+}
 public class UserListPanel extends JPanel {
 	private UserVO[] userArr;
 
@@ -32,7 +37,7 @@ public class UserListPanel extends JPanel {
 		DBConnect dbCon = new DBConnect();
 		ArrayList<UserVO> userListArr = dbCon.getUserList();
 		userArr = new UserVO[userListArr.size()];
-
+		
 		UserVO me = new UserVO();
 		me.setUserID(Info.id);
 		me.setName(Info.name);
@@ -42,14 +47,39 @@ public class UserListPanel extends JPanel {
 
 		int j = 1;
 		for (int i = 0; i < userListArr.size(); i++) {
+			System.out.println(userListArr.size());
 			if (!userListArr.get(i).getUserID().equals(Info.id)) {
 				userArr[j++] = userListArr.get(i);
 			}
 		}
 
 		// userArr = userListArr.toArray(new UserVO[userListArr.size()]);
-
 		setUserListPanel(userArr);
+	}
+	
+	public void listRefresh() {
+		System.out.println("userList refresh");
+		DBConnect dbCon = new DBConnect();
+		ArrayList<UserVO> getListArr = dbCon.getUserList();
+		
+		for (int i = 0; i < userArr.length; i++) {
+			for (int j = 0; j < getListArr.size(); j++) {
+				if(userArr[i].getUserID().equals(getListArr.get(j).getUserID())) {
+					userArr[i].setConnect(getListArr.get(j).isConnect());
+				}
+			}
+		}
+		repaint();
+	}
+	
+	public void updateConnectList(String id, boolean con) {
+		for (int i = 0; i < userArr.length; i++) {
+			if(userArr[i].getUserID().equals(id)) {
+				userArr[i].setConnect(con);
+				return;
+			}
+		}
+		repaint();
 	}
 
 	public void setUserListPanel(UserVO[] users) {
@@ -72,7 +102,7 @@ public class UserListPanel extends JPanel {
 		JScrollPane sp = new JScrollPane(list);
 		setLayout(new BorderLayout());
 
-		JButton okBtn = new JButton("확인");
+		/*JButton okBtn = new JButton("확인");
 		okBtn.addActionListener(new ActionListener() {
 			private ArrayList checkUserNo;
 
@@ -85,11 +115,12 @@ public class UserListPanel extends JPanel {
 					UserVO item = (UserVO) model.getElementAt(i);
 					if (item.isSelected()) {
 						// 체크된 아이디 가져오기
-						// checkUserNo.add(item.getUserNo());
+						 checkUserNo.add(item.getUserNo());
 					}
 				}
 			}
-		});
+		});*/
+		
 		JButton clearBtn = new JButton("초기화");
 		clearBtn.addActionListener(new ActionListener() {
 
@@ -107,7 +138,7 @@ public class UserListPanel extends JPanel {
 		});
 
 		JPanel btnPanel = new JPanel();
-		btnPanel.add(okBtn);
+//		btnPanel.add(okBtn);
 		btnPanel.add(clearBtn);
 
 		add(btnPanel, BorderLayout.SOUTH);

@@ -126,7 +126,7 @@ public class IdFind extends JFrame {
 		phonTextField.setColumns(15);
 		
 		
-		// 4. 이메일출력부분
+		// 4. 아이디출력부분
 		JPanel panel_3 = new JPanel();
 		
 		
