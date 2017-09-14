@@ -1,22 +1,21 @@
 package member;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import util.DBconnectionString;
 
 public class SignDao {
-	private static final String DB_DRIVER=
-			"com.mysql.jdbc.Driver";
-	private static final String DB_URL=
-			"jdbc:mysql://127.0.0.1:3306/project";
-	private static final String DB_ID="root";
-	private static final String DB_PW="sds1501";
-	
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
 	public SignDao() {
 		try {
-			Class.forName(DB_DRIVER);
+			Class.forName(DBconnectionString.DB_DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}finally {
@@ -32,7 +31,7 @@ public class SignDao {
 		SignVo result = null;
 
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "SELECT id, pw, name FROM member where id=? and pw=?";
 
 			pstmt = con.prepareStatement(sql);
@@ -66,7 +65,7 @@ public class SignDao {
 		SignVo result = null;
 
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "SELECT id, pw, name, birth,phone FROM member where id=?";
 
 			pstmt = con.prepareStatement(sql);
@@ -100,7 +99,7 @@ public class SignDao {
 		SignVo result = null;
 
 		try {
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "SELECT id,name,birth,phone FROM member where  name=? and birth=? and phone=?";
 
 			pstmt = con.prepareStatement(sql);
@@ -138,7 +137,7 @@ public class SignDao {
 
 		try {
 			System.out.println("dao vo:"+inputVo);
-			con = DriverManager.getConnection(DB_URL, DB_ID, DB_PW);
+			con = DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql = "SELECT pw,id,name,birth,phone FROM member where  "
 					+ "id=? and name=? and birth=? and phone=?";
 
@@ -179,7 +178,7 @@ public class SignDao {
 		int result=0;
 		
 		try {
-			con=DriverManager.getConnection(DB_URL,DB_ID,DB_PW);
+			con=DriverManager.getConnection(DBconnectionString.DB_URL, DBconnectionString.DB_ID, DBconnectionString.DB_PW);
 			String sql= "INSERT INTO member(ID, PW, NAME, birth, PHONE)"+
 					"VALUES(?,?,?,?,?)";
 			
