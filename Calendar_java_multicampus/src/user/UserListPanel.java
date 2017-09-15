@@ -139,10 +139,14 @@ public class UserListPanel extends JPanel {
 				// 체크 해제
 				ListModel model = list.getModel();
 				((UserVO) model.getElementAt(0)).setSelected(true);
+				
 				for (int i = 1; i < model.getSize(); i++) {
 					UserVO item = (UserVO) model.getElementAt(i);
 					item.setSelected(false);
+					nowUserCheckList.remove(item);
 				}
+				
+				iRefreshListener.refresh(true);
 				repaint();
 			}
 		});
